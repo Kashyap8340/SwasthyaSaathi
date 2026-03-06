@@ -34,6 +34,7 @@ app.post('/api/chat', async (req, res) => {
         res.setHeader('Content-Type', 'text/event-stream');
         res.setHeader('Cache-Control', 'no-cache');
         res.setHeader('Connection', 'keep-alive');
+        res.setHeader('X-Accel-Buffering', 'no'); // Prevent Vercel/Nginx from buffering the stream
 
         const postData = JSON.stringify({
             model: "stepfun/step-3.5-flash:free",
@@ -57,8 +58,14 @@ app.post('/api/chat', async (req, res) => {
                 let errBody = '';
                 orRes.on('data', chunk => errBody += chunk);
                 orRes.on('end', () => {
-                    console.error("OpenRouter API error:", errBody);
-                    res.write(`data: ${JSON.stringify({ error: errBody })}\n\n`);
+                    console.error("OpenRouter API error body:", errBody);
+                    let errorMessage = "AI Assistant is currently unavailable.";
+                    try {
+                        const parsedError = JSON.parse(errBody);
+                        errorMessage = parsedError.error?.message || errorMessage;
+                    } catch (e) { }
+
+                    res.write(`data: ${JSON.stringify({ error: errorMessage })}\n\n`);
                     res.write('data: [DONE]\n\n');
                     res.end();
                 });

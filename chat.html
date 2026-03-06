@@ -405,6 +405,11 @@
 
                                     try {
                                         const parsed = JSON.parse(dataStr);
+                                        if (parsed.error) {
+                                            aiContentContainer.innerHTML = `<span class="text-red-500 font-medium">Error: ${parsed.error}</span>`;
+                                            done = true;
+                                            break;
+                                        }
                                         if (parsed.content) {
                                             fullResponse += parsed.content;
 
@@ -415,7 +420,6 @@
                                             }
 
                                             // Parse the display content continuously with Marked.js
-                                            // Marked.js automatically converts markdown headers, unordered lists (ul), and bold (**text**) to HTML
                                             aiContentContainer.innerHTML = marked.parse(displayContent);
                                             scrollToBottom();
                                         }

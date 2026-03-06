@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;900&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0F4C81",
+                        "secondary": "#10B981",
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#221610",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <title>SwasthyaSaathi AI | Health Awareness Library</title>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
+    <div class="relative flex h-auto min-screen w-full flex-col overflow-x-hidden">
+        <div class="layout-container flex h-full grow flex-col">
+            <!-- Top Navigation Bar -->
+            <header
+                class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 px-6 lg:px-40 py-3 bg-white dark:bg-slate-900 sticky top-0 z-50">
+                <div class="flex items-center gap-4 text-primary cursor-pointer"
+                    onclick="window.location.href='index.html'">
+                    <div class="size-8 flex items-center justify-center bg-primary rounded-lg text-white">
+                        <span class="material-symbols-outlined">health_and_safety</span>
+                    </div>
+                    <h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">
+                        SwasthyaSaathi AI</h2>
+                </div>
+                <div class="flex flex-1 justify-end gap-4 lg:gap-8">
+                    <nav class="hidden md:flex items-center gap-6">
+                        <a class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary"
+                            href="index.html">Home</a>
+                        <a class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary"
+                            href="about.html">About</a>
+                        <a class="text-sm font-bold text-primary border-b-2 border-primary pb-1"
+                            href="awareness.html">Library</a>
+                        <a class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary"
+                            href="alerts.html">Outbreak Alerts</a>
+                        <a class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary"
+                            href="reminders.html">Reminders</a>
+                        <a class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary"
+                            href="chat.html">Consult</a>
+                    </nav>
+                    <div class="flex gap-2">
+                        <button
+                            class="flex items-center justify-center rounded-xl size-10 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                            <span class="material-symbols-outlined">notifications</span>
+                        </button>
+                        <button id="mobileMenuBtn"
+                            class="md:hidden flex items-center justify-center rounded-xl size-10 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                            <span class="material-symbols-outlined">menu</span>
+                        </button>
+                    </div>
+                </div>
+            </header>
+            <main class="flex-1 max-w-7xl mx-auto w-full px-6 lg:px-10 py-8">
+                <!-- Hero Section -->
+                <div class="flex flex-col gap-4 mb-10">
+                    <h1
+                        class="text-slate-900 dark:text-white text-4xl lg:text-5xl font-black leading-tight tracking-[-0.033em]">
+                        Health Awareness Library</h1>
+                    <p class="text-slate-600 dark:text-slate-400 text-lg max-w-3xl">
+                        Learn about common diseases, their symptoms, prevention methods, and how to protect yourself and
+                        your family with verified medical information.
+                    </p>
+                </div>
+                <!-- Search and Filters -->
+                <div class="flex flex-col gap-6 mb-12">
+                    <div class="relative group">
+                        <div
+                            class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-primary transition-colors">
+                            <span class="material-symbols-outlined">search</span>
+                        </div>
+                        <input
+                            class="w-full h-14 pl-12 pr-4 rounded-xl border-2 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 focus:border-primary focus:ring-0 transition-all text-base"
+                            placeholder="Search diseases or health topics..." type="text" />
+                    </div>
+                    <div class="flex flex-wrap gap-3" id="categoryFilterContainer">
+                        <button onclick="filterCategory('all', this)"
+                            class="category-btn px-5 py-2 rounded-full bg-primary text-white text-sm font-semibold transition-colors">All
+                            Topics</button>
+                        <button onclick="filterCategory('infectious', this)"
+                            class="category-btn px-5 py-2 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 text-sm font-medium hover:border-primary transition-colors flex items-center gap-2">
+                            <span class="material-symbols-outlined text-sm">coronavirus</span> Infectious
+                        </button>
+                        <button onclick="filterCategory('lifestyle', this)"
+                            class="category-btn px-5 py-2 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 text-sm font-medium hover:border-primary transition-colors flex items-center gap-2">
+                            <span class="material-symbols-outlined text-sm">fitness_center</span> Lifestyle
+                        </button>
+                        <button onclick="filterCategory('womens', this)"
+                            class="category-btn px-5 py-2 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 text-sm font-medium hover:border-primary transition-colors flex items-center gap-2">
+                            <span class="material-symbols-outlined text-sm">female</span> Women's Health
+                        </button>
+                        <button onclick="filterCategory('elderly', this)"
+                            class="category-btn px-5 py-2 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 text-sm font-medium hover:border-primary transition-colors flex items-center gap-2">
+                            <span class="material-symbols-outlined text-sm">elderly</span> Elderly Health
+                        </button>
+                    </div>
+                </div>
+                <!-- Featured Section -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                    <div onclick="showDiseaseModal('Dengue', 'A mosquito-borne viral disease occurring in tropical areas. Causes high fever, rash, severe headache, and muscle pain. Learn how to eliminate breeding grounds and protect your home from mosquitoes during the rainy season.', 'bug_report')"
+                        class="relative h-64 rounded-xl overflow-hidden group cursor-pointer">
+                        <div class="absolute inset-0 bg-gradient-to-r from-primary to-transparent z-10"></div>
+                        <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+                            data-alt="Rainy street showing monsoon season puddles"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDh9u2XBDhCy4QQMfgN1rk7_bCM1YgcAnp-ltN1owyVOdQ2ROagZwdk97VFfT4G_RHpMqRoi-OySzyYR1y-AEpnKC8i0Au1EBi7OIwkl4Mby6E7S-EJorFRDX4a8m9SJ11qfKnmBAHU5iY5TRp48tJbWU6mCGIYMrVROIxy2cWiOMH606mfUTWQFjaMBlQBolyM4VrlhyWkAk838QsQSiuV6cB36JYs50Gzz0YoINRTI_hGSKL2BnyysYbHMg6I0egIKQ_NqBfFkdA')">
+                        </div>
+                        <div class="relative z-20 h-full p-8 flex flex-col justify-end text-white">
+                            <span class="bg-secondary px-3 py-1 rounded text-xs font-bold uppercase mb-2 w-fit">Seasonal
+                                Alert</span>
+                            <h3 class="text-2xl font-bold mb-2 transition-colors group-hover:text-amber-200">Dengue
+                                prevention during monsoon</h3>
+                            <p class="text-white/80 text-sm line-clamp-2">Learn how to eliminate breeding grounds and
+                                protect your home from mosquitoes during the rainy season.</p>
+                        </div>
+                    </div>
+                    <div onclick="showDiseaseModal('Dehydration', 'Dehydration happens when your body loses more fluid than you take in. Proper hydration is critical for your immunity. It is recommended to drink at least 8 glasses of water a day.', 'water_drop')"
+                        class="relative h-64 rounded-xl overflow-hidden group cursor-pointer">
+                        <div class="absolute inset-0 bg-gradient-to-r from-secondary/80 to-transparent z-10"></div>
+                        <div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+                            data-alt="Refreshing glass of water with lemon"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAIi44855rj3bGK8diGvhivcK8Xzn5HcMvb2_guIThSIIIgCN7K6QbAWEHbO8TDAvO8kZywqEU-73RXtE5YVjp5Hwk001qmXXdPrE-hsHXq4UiyGnJBnNP2joRfftE2jTVgI2_JU5A7pTT38vlrMG3FrINkTSRZRW3Ywxd1Oy5GAFs00kO5fCGQx4TrtS3Sn4VkEhHrdnkZ16LKfq6T3_juLpSkWQDfOao27JP2uxQnSIjaZyg61qobdxbN39cOfaUYIcuN-man8YE')">
+                        </div>
+                        <div class="relative z-20 h-full p-8 flex flex-col justify-end text-white">
+                            <span class="bg-primary px-3 py-1 rounded text-xs font-bold uppercase mb-2 w-fit">Wellness
+                                Tip</span>
+                            <h3 class="text-2xl font-bold mb-2 transition-colors group-hover:text-amber-200">Essential
+                                Hydration Guide</h3>
+                            <p class="text-white/80 text-sm line-clamp-2">Tips on maintaining optimal hydration levels
+                                and why water intake is critical for your immunity.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Disease Library Grid -->
+                <div class="mb-12">
+                    <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary">local_hospital</span>
+                        Common Conditions
+                    </h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Card: Dementia -->
+                        <div data-category="elderly"
+                            onclick="showDiseaseModal('Dementia', 'A general term for loss of memory, language, and other thinking abilities severe enough to interfere with daily life. Common early symptoms include forgetfulness, losing track of time, and becoming lost in familiar places.', 'psychology')"
+                            class="disease-card bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow cursor-pointer group">
+                            <div
+                                class="size-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary mb-4 group-hover:bg-primary group-hover:text-white transition-colors">
+                                <span class="material-symbols-outlined text-3xl">psychology</span>
+                            </div>
+                            <h3 class="text-lg font-bold mb-2">Dementia</h3>
+                            <p class="text-slate-600 dark:text-slate-400 text-sm mb-4">A general term for loss of
+                                memory, language, and other thinking abilities severe enough to interfere with daily
+                                life.</p>
+                            <button
+                                class="text-primary font-bold text-sm flex items-center gap-1 group-hover:underline">
+                                Learn More <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                            </button>
+                        </div>
+                        <!-- Card: UTI -->
+                        <div data-category="womens"
+                            onclick="showDiseaseModal('Urinary Tract Infection', 'An infection in any part of the urinary system. Symptoms often include a strong, persistent urge to urinate, a burning sensation when urinating, and passing frequent, small amounts of urine. Drinking plenty of water is a key preventive measure.', 'fluid_med')"
+                            class="disease-card bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow cursor-pointer group">
+                            <div
+                                class="size-12 bg-secondary/10 rounded-lg flex items-center justify-center text-secondary mb-4 group-hover:bg-secondary group-hover:text-white transition-colors">
+                                <span class="material-symbols-outlined text-3xl">fluid_med</span>
+                            </div>
+                            <h3 class="text-lg font-bold mb-2">Urinary Tract Infection</h3>
+                            <p class="text-slate-600 dark:text-slate-400 text-sm mb-4">An infection in any part of the
+                                urinary system. Symptoms often include a strong, persistent urge to urinate.</p>
+                            <button
+                                class="text-primary font-bold text-sm flex items-center gap-1 group-hover:underline">
+                                Learn More <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                            </button>
+                        </div>
+                        <!-- Card: Viral Fever -->
+                        <div data-category="infectious"
+                            onclick="showDiseaseModal('Viral Fever', 'Common infections caused by viruses, characterized by high body temperature, body aches, skin rashes, and fatigue. Rest and hydration are crucial for recovery. If fever persists for more than 3 days, consult a doctor immediately.', 'thermometer')"
+                            class="disease-card bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow cursor-pointer group">
+                            <div
+                                class="size-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary mb-4 group-hover:bg-primary group-hover:text-white transition-colors">
+                                <span class="material-symbols-outlined text-3xl">thermometer</span>
+                            </div>
+                            <h3 class="text-lg font-bold mb-2">Viral Fever</h3>
+                            <p class="text-slate-600 dark:text-slate-400 text-sm mb-4">Common infections caused by
+                                viruses, characterized by high body temperature, body aches, and fatigue.</p>
+                            <button
+                                class="text-primary font-bold text-sm flex items-center gap-1 group-hover:underline">
+                                Learn More <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                            </button>
+                        </div>
+                        <!-- Card: Dengue -->
+                        <div data-category="infectious"
+                            onclick="showDiseaseModal('Dengue', 'A mosquito-borne viral disease occurring in tropical areas. Causes high fever, rash, severe headache, and muscle pain. There is no specific treatment, but early detection and access to proper medical care lowers fatality rates below 1%.', 'bug_report')"
+                            class="disease-card bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow cursor-pointer group">
+                            <div
+                                class="size-12 bg-red-100 rounded-lg flex items-center justify-center text-red-600 mb-4 group-hover:bg-red-600 group-hover:text-white transition-colors">
+                                <span class="material-symbols-outlined text-3xl">bug_report</span>
+                            </div>
+                            <h3 class="text-lg font-bold mb-2">Dengue</h3>
+                            <p class="text-slate-600 dark:text-slate-400 text-sm mb-4">A mosquito-borne viral disease
+                                occurring in tropical areas. Causes high fever, rash, and muscle pain.</p>
+                            <button
+                                class="text-primary font-bold text-sm flex items-center gap-1 group-hover:underline">
+                                Learn More <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                            </button>
+                        </div>
+                        <!-- Card: Malaria -->
+                        <div data-category="infectious"
+                            onclick="showDiseaseModal('Malaria', 'A disease caused by a parasite that infects a certain type of mosquito which feeds on humans. Symptoms are chills, fever, and sweating. It is preventable and curable. Using mosquito nets and indoor residual spraying are key prevention strategies.', 'pest_control_rodent')"
+                            class="disease-card bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow cursor-pointer group">
+                            <div
+                                class="size-12 bg-amber-100 rounded-lg flex items-center justify-center text-amber-600 mb-4 group-hover:bg-amber-500 group-hover:text-white transition-colors">
+                                <span class="material-symbols-outlined text-3xl">pest_control_rodent</span>
+                            </div>
+                            <h3 class="text-lg font-bold mb-2">Malaria</h3>
+                            <p class="text-slate-600 dark:text-slate-400 text-sm mb-4">A disease caused by a parasite
+                                that infects a certain type of mosquito which feeds on humans.</p>
+                            <button
+                                class="text-primary font-bold text-sm flex items-center gap-1 group-hover:underline">
+                                Learn More <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                            </button>
+                        </div>
+                        <!-- View All Placeholder -->
+                        <div data-category="all"
+                            class="disease-card bg-slate-100 dark:bg-slate-800 p-6 rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-700 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                            <span class="material-symbols-outlined text-4xl text-slate-400 mb-2">grid_view</span>
+                            <p class="font-bold text-slate-600 dark:text-slate-300">Explore 50+ Other Topics</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Quick Tips Section -->
+                <div class="mb-16">
+                    <h2 class="text-2xl font-bold mb-6">Quick Health Tips</h2>
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="bg-primary/5 dark:bg-primary/20 p-4 rounded-xl flex items-center gap-4">
+                            <span class="material-symbols-outlined text-primary text-3xl">clean_hands</span>
+                            <div>
+                                <h4 class="font-bold text-sm">Hand Washing</h4>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">Wash for 20 seconds</p>
+                            </div>
+                        </div>
+                        <div class="bg-secondary/5 dark:bg-secondary/20 p-4 rounded-xl flex items-center gap-4">
+                            <span class="material-symbols-outlined text-secondary text-3xl">water_drop</span>
+                            <div>
+                                <h4 class="font-bold text-sm">Hydration</h4>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">8 glasses per day</p>
+                            </div>
+                        </div>
+                        <div class="bg-primary/5 dark:bg-primary/20 p-4 rounded-xl flex items-center gap-4">
+                            <span class="material-symbols-outlined text-primary text-3xl">vaccines</span>
+                            <div>
+                                <h4 class="font-bold text-sm">Vaccination</h4>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">Stay up to date</p>
+                            </div>
+                        </div>
+                        <div class="bg-secondary/5 dark:bg-secondary/20 p-4 rounded-xl flex items-center gap-4">
+                            <span class="material-symbols-outlined text-secondary text-3xl">masks</span>
+                            <div>
+                                <h4 class="font-bold text-sm">Public Safety</h4>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">Mask in crowds</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- CTA Section -->
+                <div class="bg-primary rounded-2xl p-8 lg:p-12 text-center text-white relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-8 opacity-10">
+                        <span class="material-symbols-outlined text-[160px]">smart_toy</span>
+                    </div>
+                    <div class="relative z-10">
+                        <h2 class="text-3xl font-bold mb-4">Still Have Questions?</h2>
+                        <p class="text-white/80 max-w-xl mx-auto mb-8 text-lg">
+                            Get personalized medical insights and instant answers about your symptoms or health concerns
+                            from our AI companion.
+                        </p>
+                        <a href="chat.html"
+                            class="bg-white text-primary px-8 py-4 rounded-xl font-bold text-lg hover:bg-slate-100 transition-colors inline-flex items-center gap-2 shadow-lg cursor-pointer">
+                            <span class="material-symbols-outlined">forum</span> Chat with SwasthyaSaathi AI
+                        </a>
+                    </div>
+                </div>
+            </main>
+            <!-- Footer -->
+            <footer
+                class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-10 px-6 lg:px-40 mt-12">
+                <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                    <div class="flex items-center gap-2 text-primary">
+                        <span class="material-symbols-outlined">health_and_safety</span>
+                        <span class="font-bold">SwasthyaSaathi AI</span>
+                    </div>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm">
+                        © 2024 SwasthyaSaathi AI. Information provided is for educational purposes only.
+                    </p>
+                    <div class="flex gap-6 mt-4 md:mt-0 text-sm">
+                        <a class="text-slate-400 hover:text-primary transition-colors" href="#">English</a>
+                        <a class="text-slate-400 hover:text-primary transition-colors" href="#">हिन्दी</a>
+                        <a class="text-slate-400 hover:text-primary transition-colors" href="#">ଓଡ଼ିଆ</a>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Disease Details Modal -->
+    <div id="diseaseModal"
+        class="fixed inset-0 z-[100] hidden items-center justify-center p-4 sm:p-6 opacity-0 transition-opacity duration-300">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeDiseaseModal()"></div>
+
+        <!-- Modal Content -->
+        <div class="relative bg-white dark:bg-slate-900 rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden transform scale-95 transition-transform duration-300"
+            id="modalContent">
+            <div class="p-6 sm:p-8">
+                <button onclick="closeDiseaseModal()"
+                    class="absolute top-4 right-4 size-8 flex items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-500 transition-colors">
+                    <span class="material-symbols-outlined text-sm">close</span>
+                </button>
+
+                <div class="flex items-center gap-4 mb-6">
+                    <div id="modalIconContainer"
+                        class="size-16 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
+                        <span id="modalIcon" class="material-symbols-outlined text-4xl">local_hospital</span>
+                    </div>
+                    <h2 id="modalTitle" class="text-2xl font-black text-slate-900 dark:text-white leading-tight">Disease
+                        Name</h2>
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <h4 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-2">
+                            Overview & Symptoms</h4>
+                        <p id="modalDescription" class="text-slate-600 dark:text-slate-400 text-base leading-relaxed">
+                            Detailed description will appear here.</p>
+                    </div>
+                </div>
+
+                <div class="mt-8 flex flex-col sm:flex-row gap-3 pt-6 border-t border-slate-100 dark:border-slate-800">
+                    <button id="modalChatBtn" onclick="window.location.href='chat.html'"
+                        class="flex-1 bg-primary text-white py-3 rounded-xl font-bold hover:bg-primary/90 transition-colors flex items-center justify-center gap-2 cursor-pointer">
+                        <span class="material-symbols-outlined text-sm">chat_bubble</span> Ask AI Assistant
+                    </button>
+                    <button onclick="closeDiseaseModal()"
+                        class="px-6 py-3 font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl transition-colors">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const modal = document.getElementById('diseaseModal');
+        const modalContent = document.getElementById('modalContent');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDescription = document.getElementById('modalDescription');
+        const modalIcon = document.getElementById('modalIcon');
+        const modalIconContainer = document.getElementById('modalIconContainer');
+
+        function showDiseaseModal(title, description, icon) {
+            // Populate content
+            modalTitle.textContent = title;
+            modalDescription.textContent = description;
+            modalIcon.textContent = icon;
+
+            // Set dynamic icon color based on disease
+            modalIconContainer.className = 'size-16 rounded-xl flex items-center justify-center mb-0';
+            if (title === 'Dengue') {
+                modalIconContainer.classList.add('bg-red-100', 'text-red-600');
+            } else if (title === 'Malaria') {
+                modalIconContainer.classList.add('bg-amber-100', 'text-amber-600');
+            } else if (title === 'Urinary Tract Infection') {
+                modalIconContainer.classList.add('bg-secondary/10', 'text-secondary');
+            } else {
+                modalIconContainer.classList.add('bg-primary/10', 'text-primary');
+            }
+
+            // Update Ask AI button to pass disease context
+            const chatBtn = document.getElementById('modalChatBtn');
+            if (chatBtn) {
+                chatBtn.onclick = () => {
+                    const params = new URLSearchParams({ topic: title });
+                    window.location.href = `chat.html?${params.toString()}`;
+                };
+            }
+
+            // Show modal with animation
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            // Small delay to allow display flex to apply before opacity transition
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modal.classList.add('opacity-100');
+                modalContent.classList.remove('scale-95');
+                modalContent.classList.add('scale-100');
+            }, 10);
+
+            // Prevent body scrolling
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDiseaseModal() {
+            // Hide modal with animation
+            modal.classList.remove('opacity-100');
+            modal.classList.add('opacity-0');
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-95');
+
+            // Wait for transition to finish before hiding element
+            setTimeout(() => {
+                modal.classList.remove('flex');
+                modal.classList.add('hidden');
+            }, 300);
+
+            // Restore body scrolling
+            document.body.style.overflow = '';
+        }
+
+        // Close on Escape key
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape' && !modal.classList.contains('hidden')) {
+                closeDiseaseModal();
+            }
+        });
+
+        // Category Filtering
+        function filterCategory(category, buttonElement) {
+            const cards = document.querySelectorAll('.disease-card');
+
+            // Loop through all disease cards and display based on category
+            cards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category || card.getAttribute('data-category') === 'all') {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Update button styles
+            const buttons = document.querySelectorAll('.category-btn');
+            buttons.forEach(btn => {
+                // Reset to unselected state
+                if (btn.innerText.includes('All Topics')) {
+                    btn.className = "category-btn px-5 py-2 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 text-sm font-medium hover:border-primary transition-colors";
+                } else {
+                    btn.className = "category-btn px-5 py-2 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 text-sm font-medium hover:border-primary transition-colors flex items-center gap-2";
+                }
+            });
+
+            // Set clicked to selected state
+            if (category === 'all') {
+                buttonElement.className = "category-btn px-5 py-2 rounded-full bg-primary text-white text-sm font-bold transition-colors shadow-md";
+            } else {
+                buttonElement.className = "category-btn px-5 py-2 rounded-full bg-primary text-white text-sm font-bold transition-colors shadow-md flex items-center gap-2";
+            }
+        }
+    </script>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobileNavOverlay"
+        class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[100] hidden opacity-0 transition-opacity duration-300">
+    </div>
+    <div id="mobileNavDrawer"
+        class="fixed top-0 right-0 bottom-0 w-[80%] max-w-sm bg-white dark:bg-slate-900 z-[101] shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out p-6 flex flex-col">
+        <div class="flex justify-between items-center mb-8">
+            <div class="flex items-center gap-2">
+                <div class="bg-primary p-2 rounded-lg text-white">
+                    <span class="material-symbols-outlined text-xl">health_and_safety</span>
+                </div>
+                <span class="text-lg font-extrabold tracking-tight text-slate-900 dark:text-white">SwasthyaSaathi</span>
+            </div>
+            <button id="closeMobileNavBtn"
+                class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+
+        <nav class="flex flex-col gap-4 mb-8">
+            <a class="text-lg font-semibold text-slate-700 dark:text-slate-300 hover:text-primary flex items-center gap-3 p-2 rounded-xl"
+                href="index.html">
+                <span class="material-symbols-outlined text-primary">home</span> Home
+            </a>
+            <a class="text-lg font-semibold text-slate-700 dark:text-slate-300 hover:text-primary flex items-center gap-3 p-2 rounded-xl"
+                href="about.html">
+                <span class="material-symbols-outlined">info</span> About
+            </a>
+            <a class="text-lg font-semibold text-primary bg-primary/10 flex items-center gap-3 p-2 rounded-xl"
+                href="awareness.html">
+                <span class="material-symbols-outlined">library_books</span> Health Awareness
+            </a>
+            <a class="text-lg font-semibold text-slate-700 dark:text-slate-300 hover:text-primary flex items-center gap-3 p-2 rounded-xl"
+                href="alerts.html">
+                <span class="material-symbols-outlined">notification_important</span> Outbreak Alerts
+            </a>
+            <a class="text-lg font-semibold text-slate-700 dark:text-slate-300 hover:text-primary flex items-center gap-3 p-2 rounded-xl"
+                href="reminders.html">
+                <span class="material-symbols-outlined">event_note</span> Reminders
+            </a>
+        </nav>
+
+        <div class="h-px bg-slate-100 dark:bg-slate-800 my-4"></div>
+
+        <a class="flex items-center gap-2 px-4 py-4 bg-primary text-white rounded-2xl font-bold justify-center shadow-lg shadow-primary/20"
+            href="chat.html">
+            <span class="material-symbols-outlined">chat_bubble</span> Launch AI Chat
+        </a>
+
+        <div class="mt-auto pt-6 flex flex-col gap-3">
+            <button
+                class="w-full py-3 text-sm font-bold text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 rounded-xl">Login</button>
+            <button
+                class="w-full py-3 bg-primary text-white text-sm font-bold rounded-xl shadow-lg shadow-primary/20">Sign
+                Up</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const closeMobileNavBtn = document.getElementById('closeMobileNavBtn');
+            const mobileNavOverlay = document.getElementById('mobileNavOverlay');
+            const mobileNavDrawer = document.getElementById('mobileNavDrawer');
+
+            function openMobileNav() {
+                mobileNavOverlay.classList.remove('hidden');
+                setTimeout(() => {
+                    mobileNavOverlay.classList.remove('opacity-0');
+                    mobileNavDrawer.classList.remove('translate-x-full');
+                }, 10);
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeMobileNav() {
+                mobileNavOverlay.classList.add('opacity-0');
+                mobileNavDrawer.classList.add('translate-x-full');
+                setTimeout(() => {
+                    mobileNavOverlay.classList.add('hidden');
+                }, 300);
+                document.body.style.overflow = '';
+            }
+
+            if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', openMobileNav);
+            if (closeMobileNavBtn) closeMobileNavBtn.addEventListener('click', closeMobileNav);
+            if (mobileNavOverlay) mobileNavOverlay.addEventListener('click', closeMobileNav);
+        });
+    </script>
+
+    <!-- Global Floating Chat Button -->
+    <a href="chat.html"
+        class="fixed bottom-6 right-6 z-50 flex h-16 w-16 items-center justify-center rounded-full bg-primary text-white shadow-xl shadow-primary/30 transition-transform duration-300 hover:scale-110 hover:bg-primary/90">
+        <span class="material-symbols-outlined text-3xl">chat_bubble</span>
+    </a>
+</body>
+
+</html>

@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>SwasthyaSaathi AI - Chat</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0284c7",
+                        "background-light": "#f8fafc",
+                        "background-dark": "#0f172a",
+                        "medical-green": "#22c55e",
+                        "medical-blue-soft": "#e0f2fe"
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Public Sans', sans-serif;
+        }
+
+        .chat-container {
+            height: calc(100vh - 80px);
+        }
+
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display">
+    <div class="flex h-screen overflow-hidden relative">
+        <!-- Mobile Sidebar Overlay -->
+        <div id="sidebarOverlay"
+            class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-20 hidden md:hidden transition-opacity opacity-0">
+        </div>
+
+        <!-- Sidebar -->
+        <aside id="chatSidebar"
+            class="w-80 flex-shrink-0 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex flex-col fixed md:relative h-full z-30 transition-transform duration-300 -translate-x-full md:translate-x-0">
+            <!-- Mobile Close Button -->
+            <button id="closeSidebarBtn"
+                class="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 md:hidden">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+            <div class="p-6 border-b border-slate-100 dark:border-slate-800">
+                <a href="index.html"
+                    class="flex items-center gap-3 text-primary mb-2 hover:opacity-80 transition-opacity cursor-pointer">
+                    <span class="material-symbols-outlined text-3xl font-bold">health_and_safety</span>
+                    <h1 class="text-xl font-bold tracking-tight">SwasthyaSaathi AI</h1>
+                </a>
+                <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Your reliable digital health
+                    companion for guidance and awareness.</p>
+            </div>
+            <div class="flex-1 overflow-y-auto p-4 space-y-6 hide-scrollbar">
+                <div>
+                    <h3 class="px-2 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Recent
+                        Consultations</h3>
+                    <div id="recentConsultationsList" class="space-y-1">
+                        <button
+                            class="w-full flex items-center gap-3 px-3 py-3 rounded-xl bg-primary/10 text-primary font-medium transition-colors">
+                            <span class="material-symbols-outlined text-xl">chat_bubble</span>
+                            <span class="truncate text-sm">Dengue Symptoms</span>
+                        </button>
+                        <button
+                            class="w-full flex items-center gap-3 px-3 py-3 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                            <span class="material-symbols-outlined text-xl">history</span>
+                            <span class="truncate text-sm">Childhood Vaccination</span>
+                        </button>
+                        <button
+                            class="w-full flex items-center gap-3 px-3 py-3 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                            <span class="material-symbols-outlined text-xl">history</span>
+                            <span class="truncate text-sm">Maternal Nutrition</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    <h3
+                        class="px-2 text-xs font-semibold text-red-500 uppercase tracking-wider mb-1 flex items-center gap-1">
+                        <span class="material-symbols-outlined text-sm">emergency</span> Emergency Help
+                    </h3>
+                    <div
+                        class="p-4 rounded-xl bg-red-50 dark:bg-red-950/20 border border-red-100 dark:border-red-900/30">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="p-2 bg-red-500 rounded-lg text-white">
+                                <span class="material-symbols-outlined">call</span>
+                            </div>
+                            <div>
+                                <p class="text-sm font-bold text-red-700 dark:text-red-400">108 Ambulance</p>
+                                <p
+                                    class="text-[10px] text-red-600/70 dark:text-red-400/60 leading-none uppercase font-semibold">
+                                    Toll Free 24/7</p>
+                            </div>
+                        </div>
+                        <button
+                            class="w-full py-2 bg-white dark:bg-red-900/40 border border-red-200 dark:border-red-800 rounded-lg text-red-700 dark:text-red-300 text-xs font-bold hover:bg-red-100 transition-colors">
+                            Call Immediately
+                        </button>
+                    </div>
+                    <div
+                        class="p-4 rounded-xl bg-blue-50 dark:bg-blue-950/20 border border-blue-100 dark:border-blue-900/30">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="p-2 bg-primary rounded-lg text-white">
+                                <span class="material-symbols-outlined">map</span>
+                            </div>
+                            <div>
+                                <p class="text-sm font-bold text-primary dark:text-blue-400">Nearest Clinic</p>
+                                <p
+                                    class="text-[10px] text-primary/70 dark:text-blue-400/60 leading-none uppercase font-semibold">
+                                    Locate Center</p>
+                            </div>
+                        </div>
+                        <div class="w-full aspect-video rounded-lg overflow-hidden bg-slate-200 relative mb-2">
+                            <div class="absolute inset-0 bg-cover bg-center"
+                                data-alt="Map showing nearby healthcare facilities" data-location="New Delhi"
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC5uxTHEBUF_BNvkXBQa0CZ282Nagqsad3YQ1PyRhURw6C47hVttAhvLyVBny2SZFds57Yp8uTCfA8SAw2kvtgRjDX-Ozbyd0fVCPNcBwIcX5v6IjaFIhD3jnj05-jWH0ukEknIqqQX1pHmIA1v2UU1GHXQANaEaf3T86RqTVIJs9q__-f9kEit1iVyeYKbilzQOtnxeXeXSLAbHwwr8kHghU0B7QrZy-OEn0IqwHHbPaRGZktsddjwNlpHavSFwyawojHJsim6So4');">
+                            </div>
+                        </div>
+                        <button
+                            class="w-full py-2 bg-white dark:bg-blue-900/40 border border-blue-200 dark:border-blue-800 rounded-lg text-primary dark:text-blue-300 text-xs font-bold hover:bg-blue-100 transition-colors">
+                            View Directions
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 border-t border-slate-100 dark:border-slate-800">
+                <button id="newChatBtn"
+                    class="w-full py-3 bg-primary hover:bg-primary/90 text-white rounded-xl font-bold flex items-center justify-center gap-2 transition-all">
+                    <span class="material-symbols-outlined">add</span>
+                    New Health Chat
+                </button>
+            </div>
+        </aside>
+        <!-- Main Chat Area -->
+        <main class="flex-1 flex flex-col bg-slate-50 dark:bg-background-dark">
+            <!-- Chat Header -->
+            <header
+                class="h-20 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-4 md:px-8 z-10 shrink-0">
+                <div class="flex items-center gap-3 md:gap-4">
+                    <!-- Hamburger Menu (Mobile Only) -->
+                    <button id="openSidebarBtn"
+                        class="p-2 -ml-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg md:hidden transition-colors">
+                        <span class="material-symbols-outlined">menu</span>
+                    </button>
+                    <div class="relative hidden sm:block">
+                        <div
+                            class="size-12 rounded-full bg-medical-blue-soft dark:bg-primary/20 flex items-center justify-center text-primary border-2 border-primary/20 overflow-hidden">
+                            <img alt="AI Avatar" class="w-full h-full object-cover"
+                                data-alt="Friendly AI healthcare assistant avatar"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3XmVFVgJKyqIXxZW2bDgF7yRRgcxUGjoUE7yAHp6nH6lLhmCUOxxcsJlpc6bW88Ziyv--7BD90qo-LlwZMHtoIHA_I_GL7yvDXUxP9SvnlMpc1ppz-9cvDRgVh5Yr2KqvIsBDWJYWzSXh6DXK6XjyLSGm5x5XyBPuNgXQlru7Hkabph1B1VNhfbX-C2UzZl9nj16MPjZxJuZdIk263QbiIM-Owsge4nUDvzTRXMod6zdHvWp8aiBZQnSL0qLi6wac8oNrMx1EUEk" />
+                        </div>
+                        <div
+                            class="absolute bottom-0 right-0 size-3.5 bg-medical-green border-2 border-white dark:border-slate-900 rounded-full">
+                        </div>
+                    </div>
+                    <a href="index.html" class="hover:opacity-80 transition-opacity cursor-pointer block">
+                        <h2 class="text-lg font-bold leading-tight">SwasthyaSaathi AI</h2>
+                        <p
+                            class="text-xs text-medical-green font-semibold flex items-center gap-1 uppercase tracking-wider">
+                            <span class="size-1.5 rounded-full bg-medical-green animate-pulse"></span>
+                            Online
+                        </p>
+                    </a>
+                </div>
+                <div class="flex items-center gap-2 sm:gap-4">
+                    <div class="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl">
+                        <button id="lang-en"
+                            class="px-2 sm:px-3 py-1.5 text-[10px] sm:text-xs font-bold rounded-lg bg-white dark:bg-slate-700 shadow-sm text-primary transition-all">EN</button>
+                        <button id="lang-hi"
+                            class="px-2 sm:px-3 py-1.5 text-[10px] sm:text-xs font-bold rounded-lg text-slate-500 dark:text-slate-400 hover:bg-white/50 dark:hover:bg-slate-700/50 transition-all">हिंदी</button>
+                        <button id="lang-or"
+                            class="px-2 sm:px-3 py-1.5 text-[10px] sm:text-xs font-bold rounded-lg text-slate-500 dark:text-slate-400 hover:bg-white/50 dark:hover:bg-slate-700/50 transition-all">ଓଡ଼ିଆ</button>
+                    </div>
+                    <button class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400">
+                        <span class="material-symbols-outlined text-xl">settings</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Hidden Google Translate Element -->
+            <div id="google_translate_element" style="display:none;"></div>
+            <!-- Messages Area -->
+            <div id="chatContainer" class="flex-1 overflow-y-auto p-4 sm:p-8 space-y-6 sm:space-y-8 hide-scrollbar">
+                <!-- System Greeting -->
+                <div class="flex flex-col items-center mb-4">
+                    <div
+                        class="bg-blue-50 dark:bg-blue-900/10 px-6 py-4 rounded-2xl max-w-2xl text-center border border-blue-100 dark:border-blue-900/30">
+                        <h3 class="font-bold text-primary mb-1">Welcome back!</h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-400">Ask health-related questions and receive
+                            reliable guidance about diseases, prevention, vaccination, and health alerts.</p>
+                    </div>
+                </div>
+                <!-- AI Message -->
+                <div class="flex items-end gap-3 max-w-[80%]">
+                    <div
+                        class="size-8 rounded-full bg-primary flex items-center justify-center text-white flex-shrink-0 mb-1">
+                        <span class="material-symbols-outlined text-lg">smart_toy</span>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-slate-800 p-5 rounded-2xl rounded-bl-none shadow-sm border border-slate-100 dark:border-slate-700">
+                        <p class="text-base leading-relaxed">Namaste! I am your health assistant. How can I help you
+                            today? You can ask me about common illnesses, healthy habits, or nearest medical facilities.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- Input Area -->
+            <footer class="p-4 sm:p-6 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800">
+                <div class="max-w-4xl mx-auto space-y-4">
+                    <!-- Suggested Pills -->
+                    <div id="suggestedPillsContainer" class="flex flex-wrap gap-2 justify-center">
+                        <button
+                            class="suggestion-btn px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-primary/10 hover:text-primary rounded-full text-xs font-semibold text-slate-600 dark:text-slate-400 transition-all border border-slate-200 dark:border-slate-700">
+                            How can I prevent viral fever?
+                        </button>
+                        <button
+                            class="suggestion-btn px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-primary/10 hover:text-primary rounded-full text-xs font-semibold text-slate-600 dark:text-slate-400 transition-all border border-slate-200 dark:border-slate-700">
+                            Polio vaccination schedule?
+                        </button>
+                        <button
+                            class="suggestion-btn px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-primary/10 hover:text-primary rounded-full text-xs font-semibold text-slate-600 dark:text-slate-400 transition-all border border-slate-200 dark:border-slate-700">
+                            Nearby health centers?
+                        </button>
+                    </div>
+                    <div class="relative flex items-center gap-2 sm:gap-3">
+                        <div class="relative flex-1">
+                            <input id="chatInput"
+                                class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-2xl py-3.5 sm:py-4 pl-5 sm:pl-6 pr-12 sm:pr-14 text-sm sm:text-base focus:ring-2 focus:ring-primary/50 placeholder:text-slate-400 dark:placeholder:text-slate-500"
+                                placeholder="Ask a health question..." type="text" />
+                            <button
+                                class="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-primary transition-colors">
+                                <span class="material-symbols-outlined text-xl">mic</span>
+                            </button>
+                        </div>
+                        <button id="sendBtn"
+                            class="bg-primary hover:bg-primary/90 text-white size-12 sm:size-14 rounded-2xl flex items-center justify-center shadow-lg shadow-primary/20 transition-transform active:scale-95 shrink-0">
+                            <span class="material-symbols-outlined text-xl sm:text-2xl">send</span>
+                        </button>
+                    </div>
+                    <div
+                        class="flex items-center justify-center gap-2 px-4 py-2 bg-slate-50 dark:bg-slate-950/30 rounded-lg border border-slate-100 dark:border-slate-800/50">
+                        <span class="material-symbols-outlined text-slate-400 text-sm">info</span>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400 text-center font-medium italic">
+                            SwasthyaSaathi AI provides health awareness information and does not replace professional
+                            medical advice.
+                        </p>
+                    </div>
+                </div>
+            </footer>
+        </main>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const chatInput = document.getElementById('chatInput');
+            const sendBtn = document.getElementById('sendBtn');
+            const chatContainer = document.getElementById('chatContainer');
+            const suggestedPillsContainer = document.getElementById('suggestedPillsContainer');
+            const newChatBtn = document.getElementById('newChatBtn');
+            const recentConsultationsList = document.getElementById('recentConsultationsList');
+            const chatSidebar = document.getElementById('chatSidebar');
+            const openSidebarBtn = document.getElementById('openSidebarBtn');
+            const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+            const SYSTEM_PROMPT = {
+                role: "system",
+                content: "You are SwasthyaSaathi AI, a helpful and reliable health assistant. Your goal is to provide general healthcare awareness, information on diseases, and prevention techniques. Do not provide medical diagnosis. If a user presents severe symptoms, always advise them to seek immediate medical help or call emergency services like 108. CRITICAL: You must ONLY answer questions related to health, medical conditions, wellness, or the SwasthyaSaathi app. If a user asks something unrelated (e.g., coding, math, general trivia, politics), politely refuse to answer and remind them you are a health assistant. Format your responses using markdown. Use bullet points for lists, short paragraphs for readability, and bold text to emphasize important information or key terms. IMPORTANT INSTRUCTION: At the very end of EVERY response, you MUST provide exactly 3 short follow-up questions the user could ask next. Prefix this section exactly with '|||SUGGESTIONS|||' followed by the questions separated by '|'. Example: |||SUGGESTIONS|||What is Dengue?|How to prevent malaria?|Nearest hospital?"
+            };
+
+            let messageHistory = [SYSTEM_PROMPT];
+            let isFirstMessageInSession = true;
+
+            function scrollToBottom() {
+                chatContainer.scrollTo({
+                    top: chatContainer.scrollHeight,
+                    behavior: 'smooth'
+                });
+            }
+
+            function appendUserMessage(text) {
+                const timeRaw = new Date();
+                const timeStr = timeRaw.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).toUpperCase();
+
+                const msgHTML = `
+            <div class="flex items-end gap-2 sm:gap-3 justify-end ml-auto max-w-[90%] sm:max-w-[80%]">
+                <div class="bg-primary text-white p-4 sm:p-5 rounded-2xl rounded-br-none shadow-md border border-primary">
+                    <p class="text-sm sm:text-base leading-relaxed">${text}</p>
+                    <span class="text-[10px] text-primary-soft opacity-80 font-medium block mt-2 text-right uppercase tracking-wide">${timeStr}</span>
+                </div>
+                <div class="size-7 sm:size-8 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center flex-shrink-0 mb-1">
+                    <span class="material-symbols-outlined text-base sm:text-lg text-slate-500">person</span>
+                </div>
+            </div>`;
+                chatContainer.insertAdjacentHTML('beforeend', msgHTML);
+                scrollToBottom();
+            }
+
+            function createAIBubble() {
+                const timeRaw = new Date();
+                const timeStr = timeRaw.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }).toUpperCase();
+
+                // Create the wrapper dive
+                const wrapper = document.createElement('div');
+                wrapper.className = "flex items-end gap-2 sm:gap-3 max-w-[90%] sm:max-w-[80%]";
+
+                wrapper.innerHTML = `
+                <div class="size-7 sm:size-8 rounded-full bg-primary flex items-center justify-center text-white flex-shrink-0 mb-1">
+                    <span class="material-symbols-outlined text-base sm:text-lg">smart_toy</span>
+                </div>
+                <div class="bg-white dark:bg-slate-800 p-4 sm:p-5 rounded-2xl rounded-bl-none shadow-sm border border-slate-100 dark:border-slate-700 w-full min-w-[200px]">
+                    <div class="text-sm sm:text-base leading-relaxed message-content prose prose-sm prose-slate dark:prose-invert max-w-none"></div>
+                    <span class="text-[10px] text-slate-400 font-medium block mt-2 uppercase tracking-wide">${timeStr}</span>
+                </div>
+            `;
+
+                chatContainer.appendChild(wrapper);
+                scrollToBottom();
+
+                // Return the element where we will inject text
+                return wrapper.querySelector('.message-content');
+            }
+
+            async function sendMessage() {
+                const text = chatInput.value.trim();
+                if (!text) return;
+
+                // Immediately clear input and show user message
+                chatInput.value = '';
+                appendUserMessage(text);
+
+                // Handle History extraction on first query of the session
+                if (isFirstMessageInSession) {
+                    isFirstMessageInSession = false;
+                    addRecentConsultation(text);
+                }
+
+                // Add user message to history
+                messageHistory.push({ role: "user", content: text });
+
+                // Create an empty AI bubble that we will populate via stream
+                const aiContentContainer = createAIBubble();
+
+                try {
+                    // Send the POST request to our Express server
+                    const response = await fetch('/api/chat', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ messages: messageHistory })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Server responded with an error');
+                    }
+
+                    // Setup stream reading
+                    const reader = response.body.getReader();
+                    const decoder = new TextDecoder();
+
+                    let done = false;
+                    let fullResponse = "";
+
+                    while (!done) {
+                        const { value, done: readerDone } = await reader.read();
+                        done = readerDone;
+
+                        if (value) {
+                            const chunkStr = decoder.decode(value, { stream: true });
+                            const lines = chunkStr.split('\n');
+
+                            for (const line of lines) {
+                                if (line.startsWith('data: ')) {
+                                    const dataStr = line.slice(6);
+                                    if (dataStr === '[DONE]') {
+                                        done = true;
+                                        break;
+                                    }
+
+                                    try {
+                                        const parsed = JSON.parse(dataStr);
+                                        if (parsed.content) {
+                                            fullResponse += parsed.content;
+
+                                            // Filter out suggestions part purely for display
+                                            let displayContent = fullResponse;
+                                            if (fullResponse.includes('|||SUGGESTIONS|||')) {
+                                                displayContent = fullResponse.split('|||SUGGESTIONS|||')[0];
+                                            }
+
+                                            // Parse the display content continuously with Marked.js
+                                            // Marked.js automatically converts markdown headers, unordered lists (ul), and bold (**text**) to HTML
+                                            aiContentContainer.innerHTML = marked.parse(displayContent);
+                                            scrollToBottom();
+                                        }
+                                    } catch (e) {
+                                        // Ignore JSON parse errors for incomplete chunks
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // Once stream is complete, process suggestions
+                    let finalDisplayContent = fullResponse;
+                    if (fullResponse.includes('|||SUGGESTIONS|||')) {
+                        const parts = fullResponse.split('|||SUGGESTIONS|||');
+                        finalDisplayContent = parts[0];
+
+                        const suggestions = parts[1].split('|').map(s => s.trim()).filter(s => s.length > 0);
+                        renderSuggestions(suggestions);
+                    } else {
+                        // Fallback clear if model ignored the instruction
+                        suggestedPillsContainer.innerHTML = '';
+                    }
+
+                    // Add Assistant response to history for context (only the visible part)
+                    messageHistory.push({ role: "assistant", content: finalDisplayContent });
+
+                } catch (error) {
+                    console.error("Chat Error:", error);
+                    aiContentContainer.innerHTML = `<span class="text-red-500">Sorry, I encountered an error. Please try again later.</span>`;
+                }
+            }
+
+            // Click-to-send bindings for suggestion pills
+            function bindSuggestions() {
+                const suggestionBtns = document.querySelectorAll('.suggestion-btn');
+                suggestionBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        chatInput.value = btn.innerText;
+                        sendMessage();
+                    });
+                });
+            }
+
+            function renderSuggestions(suggestions) {
+                suggestedPillsContainer.innerHTML = '';
+                suggestions.slice(0, 3).forEach(suggestion => {
+                    const btn = document.createElement('button');
+                    btn.className = "suggestion-btn px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-primary/10 hover:text-primary rounded-full text-xs font-semibold text-slate-600 dark:text-slate-400 transition-all border border-slate-200 dark:border-slate-700";
+                    btn.innerText = suggestion;
+                    suggestedPillsContainer.appendChild(btn);
+                });
+                bindSuggestions();
+            }
+
+            // Bind initial suggestions
+            bindSuggestions();
+
+            function addRecentConsultation(query) {
+                // Keep it short for the sidebar (first ~3-4 words)
+                const snippet = query.split(' ').slice(0, 4).join(' ') + (query.split(' ').length > 4 ? '...' : '');
+
+                // Remove active styling from existing items
+                const existingBtns = recentConsultationsList.querySelectorAll('button');
+                existingBtns.forEach(b => {
+                    b.className = "w-full flex items-center gap-3 px-3 py-3 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors";
+                });
+
+                // Prepend new history item
+                const btnHTML = `
+                    <button class="w-full flex items-center gap-3 px-3 py-3 rounded-xl bg-primary/10 text-primary font-medium transition-colors">
+                        <span class="material-symbols-outlined text-xl">chat_bubble</span>
+                        <span class="truncate text-sm">${snippet}</span>
+                    </button>
+                `;
+                recentConsultationsList.insertAdjacentHTML('afterbegin', btnHTML);
+            }
+
+            function startNewChat() {
+                // Reset backend history and flags
+                messageHistory = [SYSTEM_PROMPT];
+                isFirstMessageInSession = true;
+
+                // Clear Chat UI
+                chatContainer.innerHTML = `
+                    <div class="flex flex-col items-center mb-4">
+                        <div class="bg-blue-50 dark:bg-blue-900/10 px-6 py-4 rounded-2xl max-w-2xl text-center border border-blue-100 dark:border-blue-900/30">
+                            <h3 class="font-bold text-primary mb-1">Welcome back!</h3>
+                            <p class="text-sm text-slate-600 dark:text-slate-400">Ask health-related questions and receive reliable guidance about diseases, prevention, vaccination, and health alerts.</p>
+                        </div>
+                    </div>
+                `;
+
+                // Reset Suggestion Pills to default
+                const defaultSuggestions = ["How can I prevent viral fever?", "Polio vaccination schedule?", "Nearby health centers?"];
+                renderSuggestions(defaultSuggestions);
+            }
+
+            if (newChatBtn) {
+                newChatBtn.addEventListener('click', startNewChat);
+            }
+
+            // Mobile Sidebar Toggle Logic
+            function openSidebar() {
+                chatSidebar.classList.remove('-translate-x-full');
+                sidebarOverlay.classList.remove('hidden');
+                // Small delay to allow display:block to apply before animating opacity
+                setTimeout(() => {
+                    sidebarOverlay.classList.remove('opacity-0');
+                }, 10);
+            }
+
+            function closeSidebar() {
+                chatSidebar.classList.add('-translate-x-full');
+                sidebarOverlay.classList.add('opacity-0');
+                setTimeout(() => {
+                    sidebarOverlay.classList.add('hidden');
+                }, 300); // match transition duration
+            }
+
+            if (openSidebarBtn) openSidebarBtn.addEventListener('click', openSidebar);
+            if (closeSidebarBtn) closeSidebarBtn.addEventListener('click', closeSidebar);
+            if (sidebarOverlay) sidebarOverlay.addEventListener('click', closeSidebar);
+
+            sendBtn.addEventListener('click', sendMessage);
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+
+            // Handle URL Parameters for contextual chat jumps
+            const urlParams = new URLSearchParams(window.location.search);
+            const topic = urlParams.get('topic');
+            if (topic) {
+                // Pre-fill and send
+                chatInput.value = `Tell me about ${topic}`;
+                // Small delay to let UI settle before sending
+                setTimeout(() => {
+                    sendMessage();
+                    // Clean up URL so refresh doesn't trigger it again
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                }, 500);
+            }
+        });
+
+        // ==========================================
+        // Google Translate & Custom Translation Logic
+        // ==========================================
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,hi,or',
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+
+        // Setup custom button bindings once DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            const btnEn = document.getElementById('lang-en');
+            const btnHi = document.getElementById('lang-hi');
+            const btnOr = document.getElementById('lang-or');
+
+            const allBtns = [btnEn, btnHi, btnOr];
+
+            function setActiveButton(activeBtn) {
+                // Reset styling
+                allBtns.forEach(btn => {
+                    btn.className = "px-3 py-1.5 text-xs font-bold rounded-lg text-slate-500 dark:text-slate-400 hover:bg-white/50 dark:hover:bg-slate-700/50 transition-all";
+                });
+
+                // Set active styling
+                activeBtn.className = "px-3 py-1.5 text-xs font-bold rounded-lg shadow-sm text-primary bg-white dark:bg-slate-700 transition-all";
+            }
+
+            function triggerTranslation(langCode, btn) {
+                setActiveButton(btn);
+
+                // Locate the google translate dropdown via its standard class structure
+                const selectEl = document.querySelector('.goog-te-combo');
+                if (selectEl) {
+                    selectEl.value = langCode;
+                    selectEl.dispatchEvent(new Event('change'));
+                }
+            }
+
+            // By default EN is active
+            setActiveButton(btnEn);
+
+            btnEn.addEventListener('click', () => triggerTranslation('en', btnEn));
+            btnHi.addEventListener('click', () => triggerTranslation('hi', btnHi));
+            btnOr.addEventListener('click', () => triggerTranslation('or', btnOr));
+        });
+    </script>
+    <script type="text/javascript"
+        src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+
+</html>

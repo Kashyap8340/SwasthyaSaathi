@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>SwasthyaSaathi AI - Vaccination &amp; Medicine Reminders</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800;900&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0ea5e9", // Medical Blue
+                        "secondary": "#22c55e", // Soft Green
+                        "background-light": "#f8fafc",
+                        "background-dark": "#0f172a",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Public Sans', sans-serif;
+        }
+
+        .material-symbols-outlined {
+            font-size: 24px;
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display">
+    <div class="relative flex min-h-screen flex-col overflow-x-hidden">
+        <!-- Header / Navigation -->
+        <header
+            class="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md dark:border-slate-800">
+            <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+                <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='index.html'">
+                    <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-white">
+                        <span class="material-symbols-outlined">health_and_safety</span>
+                    </div>
+                    <span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">SwasthyaSaathi
+                        AI</span>
+                </div>
+                <nav class="hidden md:flex items-center gap-6">
+                    <a class="text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-primary transition-colors"
+                        href="index.html">Home</a>
+                    <a class="text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-primary transition-colors"
+                        href="about.html">About</a>
+                    <a class="text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-primary transition-colors"
+                        href="awareness.html">Health Awareness</a>
+                    <a class="text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-primary transition-colors"
+                        href="alerts.html">Outbreak Alerts</a>
+                    <a class="text-sm font-semibold text-primary" href="reminders.html">Reminders</a>
+                    <a class="text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-primary transition-colors"
+                        href="chat.html">Consult</a>
+                </nav>
+                <div class="flex items-center gap-3">
+                    <button
+                        class="relative flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                        <span class="material-symbols-outlined">notifications</span>
+                        <span class="absolute top-2 right-2 flex h-2 w-2 rounded-full bg-red-500"></span>
+                    </button>
+                    <button id="mobileMenuBtn"
+                        class="md:hidden flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                        <span class="material-symbols-outlined">menu</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+        <main class="mx-auto w-full max-w-7xl flex-1 px-4 py-8 sm:px-6 lg:px-8">
+            <!-- Hero Section -->
+            <div
+                class="mb-12 flex flex-col items-center gap-8 rounded-3xl bg-gradient-to-br from-primary/10 via-white to-secondary/10 p-8 dark:from-primary/20 dark:via-slate-900 dark:to-secondary/20 lg:flex-row">
+                <div class="flex-1 space-y-4">
+                    <h1 class="text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-5xl">
+                        Vaccination &amp; Medicine <span class="text-primary">Reminders</span>
+                    </h1>
+                    <p class="max-w-xl text-lg leading-relaxed text-slate-600 dark:text-slate-400">
+                        Stay on track with important vaccinations and medicines by setting simple reminders through SMS
+                        or email. We ensure you never miss a dose for your health and family.
+                    </p>
+                    <div class="flex flex-wrap gap-4 pt-2">
+                        <div
+                            class="flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-medium shadow-sm dark:bg-slate-800">
+                            <span class="material-symbols-outlined text-primary">sms</span> SMS Alerts
+                        </div>
+                        <div
+                            class="flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-medium shadow-sm dark:bg-slate-800">
+                            <span class="material-symbols-outlined text-secondary">mail</span> Email Updates
+                        </div>
+                    </div>
+                </div>
+                <div class="relative w-full max-w-sm lg:w-1/3">
+                    <div class="aspect-square rounded-full bg-primary/20 p-8">
+                        <div class="h-full w-full rounded-2xl bg-white shadow-xl dark:bg-slate-800 flex flex-col p-4">
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="font-bold text-slate-700 dark:text-slate-200">Health Calendar</span>
+                                <span class="material-symbols-outlined text-primary">event</span>
+                            </div>
+                            <div
+                                class="flex-1 bg-slate-50 dark:bg-slate-900 rounded-lg border border-dashed border-slate-300 dark:border-slate-700 flex flex-col items-center justify-center gap-2">
+                                <span class="material-symbols-outlined text-4xl text-secondary">vaccines</span>
+                                <p class="text-xs font-medium text-slate-500">Upcoming BCG Vaccine</p>
+                                <p class="text-lg font-bold">Tomorrow, 10 AM</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 gap-12 lg:grid-cols-3">
+                <!-- Left Content: Schedules & Reminders -->
+                <div class="lg:col-span-2 space-y-12">
+                    <!-- Vaccination Schedules -->
+                    <section>
+                        <div class="mb-6 flex items-center justify-between">
+                            <h2 class="text-2xl font-bold tracking-tight">Vaccination Schedules</h2>
+                            <button class="text-sm font-semibold text-primary flex items-center gap-1">View Full Chart
+                                <span class="material-symbols-outlined text-sm">arrow_forward</span></button>
+                        </div>
+                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                            <!-- Child Vaccine Card -->
+                            <div
+                                class="group rounded-2xl border border-slate-200 bg-white p-5 transition hover:shadow-lg dark:border-slate-800 dark:bg-slate-900">
+                                <div
+                                    class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50 text-blue-600 dark:bg-blue-900/30">
+                                    <span class="material-symbols-outlined">child_care</span>
+                                </div>
+                                <h3 class="font-bold">BCG (Child)</h3>
+                                <p class="text-sm font-medium text-primary">At Birth</p>
+                                <p class="mt-2 text-xs leading-relaxed text-slate-500 dark:text-slate-400">Protection
+                                    against Tuberculosis (TB) for newborns.</p>
+                            </div>
+                            <!-- Pregnancy Vaccine Card -->
+                            <div
+                                class="group rounded-2xl border border-slate-200 bg-white p-5 transition hover:shadow-lg dark:border-slate-800 dark:bg-slate-900">
+                                <div
+                                    class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-pink-50 text-pink-600 dark:bg-pink-900/30">
+                                    <span class="material-symbols-outlined">pregnant_woman</span>
+                                </div>
+                                <h3 class="font-bold">Tetanus Toxoid</h3>
+                                <p class="text-sm font-medium text-primary">Early Pregnancy</p>
+                                <p class="mt-2 text-xs leading-relaxed text-slate-500 dark:text-slate-400">Prevents
+                                    tetanus for both mother and child during birth.</p>
+                            </div>
+                            <!-- Adult Booster Card -->
+                            <div
+                                class="group rounded-2xl border border-slate-200 bg-white p-5 transition hover:shadow-lg dark:border-slate-800 dark:bg-slate-900">
+                                <div
+                                    class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-orange-50 text-orange-600 dark:bg-orange-900/30">
+                                    <span class="material-symbols-outlined">person</span>
+                                </div>
+                                <h3 class="font-bold">Flu Vaccine</h3>
+                                <p class="text-sm font-medium text-primary">Annual Booster</p>
+                                <p class="mt-2 text-xs leading-relaxed text-slate-500 dark:text-slate-400">Seasonal
+                                    protection against various influenza strains.</p>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- Medicine Reminders Dashboard -->
+                    <section>
+                        <h2 class="mb-6 text-2xl font-bold tracking-tight">Medicine Daily Tracking</h2>
+                        <div class="space-y-4">
+                            <div
+                                class="flex items-center justify-between rounded-2xl bg-white p-4 shadow-sm border border-slate-100 dark:bg-slate-900 dark:border-slate-800">
+                                <div class="flex items-center gap-4">
+                                    <div
+                                        class="flex h-12 w-12 items-center justify-center rounded-full bg-secondary/10 text-secondary">
+                                        <span class="material-symbols-outlined">medication</span>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold">Amlodipine (5mg)</h4>
+                                        <p class="text-xs text-slate-500">1 Tablet • Daily • 8:00 AM</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <button
+                                        class="h-10 w-10 rounded-lg border border-slate-200 flex items-center justify-center dark:border-slate-700 text-slate-500">
+                                        <span class="material-symbols-outlined text-lg">edit</span>
+                                    </button>
+                                    <span
+                                        class="rounded-full bg-secondary/20 px-3 py-1 text-xs font-bold text-secondary">Taken</span>
+                                </div>
+                            </div>
+                            <div
+                                class="flex items-center justify-between rounded-2xl bg-white p-4 shadow-sm border border-slate-100 dark:bg-slate-900 dark:border-slate-800">
+                                <div class="flex items-center gap-4">
+                                    <div
+                                        class="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
+                                        <span class="material-symbols-outlined">pill</span>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold">Multivitamin</h4>
+                                        <p class="text-xs text-slate-500">1 Capsule • Every Morning • 9:30 AM</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <button
+                                        class="h-10 w-10 rounded-lg border border-slate-200 flex items-center justify-center dark:border-slate-700 text-slate-500">
+                                        <span class="material-symbols-outlined text-lg">edit</span>
+                                    </button>
+                                    <button
+                                        class="rounded-full bg-primary px-4 py-2 text-xs font-bold text-white shadow-md shadow-primary/20">Mark
+                                        Taken</button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- Health Tips -->
+                    <section>
+                        <h2 class="mb-6 text-2xl font-bold tracking-tight">Health Tips</h2>
+                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                            <div class="flex gap-4 rounded-xl bg-secondary/5 p-4 border border-secondary/10">
+                                <span class="material-symbols-outlined text-secondary">verified_user</span>
+                                <p class="text-sm font-medium leading-tight">Complete all child vaccinations on time to
+                                    ensure long-term immunity.</p>
+                            </div>
+                            <div class="flex gap-4 rounded-xl bg-primary/5 p-4 border border-primary/10">
+                                <span class="material-symbols-outlined text-primary">info</span>
+                                <p class="text-sm font-medium leading-tight">Always take medications with a glass of
+                                    water unless stated otherwise.</p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <!-- Right Sidebar: Form & Upcoming -->
+                <div class="space-y-8">
+                    <!-- Set Reminder Form -->
+                    <section
+                        class="rounded-3xl bg-white p-6 shadow-xl dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+                        <div class="mb-6">
+                            <h3 class="text-xl font-bold">Set New Reminder</h3>
+                            <p class="text-xs text-slate-500 mt-1">Add a medicine or vaccine schedule</p>
+                        </div>
+                        <form class="space-y-4">
+                            <div>
+                                <label class="text-sm font-bold text-slate-700 dark:text-slate-300">Name / Item</label>
+                                <input
+                                    class="mt-1 w-full rounded-xl border-slate-200 bg-slate-50 dark:bg-slate-800 dark:border-slate-700 focus:ring-primary"
+                                    placeholder="e.g. Polio Vaccine" type="text" />
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="text-sm font-bold text-slate-700 dark:text-slate-300">Date</label>
+                                    <input
+                                        class="mt-1 w-full rounded-xl border-slate-200 bg-slate-50 dark:bg-slate-800 dark:border-slate-700"
+                                        type="date" />
+                                </div>
+                                <div>
+                                    <label class="text-sm font-bold text-slate-700 dark:text-slate-300">Time</label>
+                                    <input
+                                        class="mt-1 w-full rounded-xl border-slate-200 bg-slate-50 dark:bg-slate-800 dark:border-slate-700"
+                                        type="time" />
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-sm font-bold text-slate-700 dark:text-slate-300">Type</label>
+                                <select
+                                    class="mt-1 w-full rounded-xl border-slate-200 bg-slate-50 dark:bg-slate-800 dark:border-slate-700">
+                                    <option>Vaccine</option>
+                                    <option>Medicine</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="text-sm font-bold text-slate-700 dark:text-slate-300">Notification
+                                    Method</label>
+                                <div class="mt-2 flex gap-4">
+                                    <label class="flex items-center gap-2 cursor-pointer">
+                                        <input checked="" class="rounded text-primary focus:ring-primary"
+                                            type="checkbox" />
+                                        <span class="text-sm font-medium">SMS</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 cursor-pointer">
+                                        <input class="rounded text-primary focus:ring-primary" type="checkbox" />
+                                        <span class="text-sm font-medium">Email</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <button
+                                class="w-full rounded-xl bg-primary py-3 font-bold text-white transition hover:bg-primary/90 shadow-lg shadow-primary/20"
+                                onclick="event.preventDefault(); document.getElementById('success-modal').classList.remove('hidden')">Set
+                                Reminder</button>
+                        </form>
+                    </section>
+                    <!-- Upcoming Reminders -->
+                    <section>
+                        <h3 class="mb-4 text-lg font-bold tracking-tight">Active Reminders</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-3 rounded-2xl bg-slate-50 p-3 dark:bg-slate-800/50">
+                                <div
+                                    class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-primary text-white">
+                                    <span class="material-symbols-outlined text-sm">notifications_active</span>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="truncate text-sm font-bold">DPT Booster</p>
+                                    <p class="text-xs text-slate-500">Oct 24 • 11:00 AM</p>
+                                </div>
+                                <button class="text-slate-400 hover:text-red-500">
+                                    <span class="material-symbols-outlined text-lg">delete</span>
+                                </button>
+                            </div>
+                            <div class="flex items-center gap-3 rounded-2xl bg-slate-50 p-3 dark:bg-slate-800/50">
+                                <div
+                                    class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-secondary text-white">
+                                    <span class="material-symbols-outlined text-sm">notifications_active</span>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="truncate text-sm font-bold">Iron Supplement</p>
+                                    <p class="text-xs text-slate-500">Tomorrow • 8:30 PM</p>
+                                </div>
+                                <button class="text-slate-400 hover:text-red-500">
+                                    <span class="material-symbols-outlined text-lg">delete</span>
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            <!-- CTA Section -->
+            <div class="mt-16 rounded-[2.5rem] bg-slate-900 px-8 py-12 text-center text-white dark:bg-primary/10">
+                <div class="mx-auto max-w-2xl">
+                    <div
+                        class="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-primary/20 text-primary">
+                        <span class="material-symbols-outlined text-4xl">smart_toy</span>
+                    </div>
+                    <h2 class="text-3xl font-extrabold tracking-tight sm:text-4xl">Need Guidance About Vaccines or
+                        Medicines?</h2>
+                    <p class="mt-4 text-lg text-slate-400">Our AI assistant is here to answer your questions about side
+                        effects, schedules, and more.</p>
+                    <a href="chat.html"
+                        class="mt-8 rounded-full bg-white px-8 py-4 text-lg font-black text-slate-900 transition hover:scale-105 hover:bg-slate-100 flex items-center gap-2 mx-auto inline-flex">
+                        Chat with SwasthyaSaathi AI <span class="material-symbols-outlined">forum</span>
+                    </a>
+                </div>
+            </div>
+        </main>
+        <!-- Footer -->
+        <footer class="mt-auto border-t border-slate-200 bg-white py-8 dark:border-slate-800 dark:bg-background-dark">
+            <div
+                class="mx-auto max-w-7xl px-4 flex flex-col items-center justify-between gap-4 text-center sm:px-6 lg:flex-row lg:px-8">
+                <p class="text-sm text-slate-500">© 2024 SwasthyaSaathi AI. Helping rural India stay healthy. Support:
+                    support@swasthyasaathi.ai</p>
+                <div class="flex gap-6 text-xs font-medium">
+                    <a class="text-slate-500 hover:text-primary transition-colors" href="#">English</a>
+                    <a class="text-slate-500 hover:text-primary transition-colors" href="#">हिन्दी</a>
+                    <a class="text-slate-500 hover:text-primary transition-colors" href="#">ଓଡ଼ିଆ</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <!-- Success Modal -->
+    <div class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm hidden"
+        id="success-modal">
+        <div
+            class="w-full max-w-md transform overflow-hidden rounded-[2rem] bg-white p-8 text-center align-middle shadow-2xl transition-all dark:bg-slate-900">
+            <div
+                class="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-secondary/20 text-secondary">
+                <span class="material-symbols-outlined text-5xl">check_circle</span>
+            </div>
+            <h3 class="text-2xl font-bold leading-6 text-slate-900 dark:text-white" id="modal-title">
+                Reminder Set Successfully!
+            </h3>
+            <div class="mt-4">
+                <p class="text-sm text-slate-500 dark:text-slate-400">
+                    You will receive a notification via SMS for your <span
+                        class="font-bold text-slate-700 dark:text-slate-200">Upcoming BCG Vaccine</span> on <span
+                        class="font-bold text-slate-700 dark:text-slate-200">Tomorrow, 10 AM</span>.
+                </p>
+            </div>
+            <div class="mt-8">
+                <button
+                    class="w-full rounded-xl bg-slate-900 px-4 py-3 text-sm font-bold text-white transition hover:bg-slate-800 dark:bg-primary dark:hover:bg-primary/90"
+                    onclick="document.getElementById('success-modal').classList.add('hidden')" type="button">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobileNavOverlay"
+        class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[100] hidden opacity-0 transition-opacity duration-300">
+    </div>
+    <div id="mobileNavDrawer"
+        class="fixed top-0 right-0 bottom-0 w-[80%] max-w-sm bg-white dark:bg-slate-900 z-[101] shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out p-6 flex flex-col">
+        <div class="flex justify-between items-center mb-8">
+            <a href="index.html" class="flex items-center gap-2">
+                <div class="bg-primary p-2 rounded-lg text-white">
+                    <span class="material-symbols-outlined text-xl">health_and_safety</span>
+                </div>
+                <span class="text-lg font-extrabold tracking-tight text-slate-900 dark:text-white">SwasthyaSaathi</span>
+            </a>
+            <button id="closeMobileNavBtn"
+                class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+
+        <nav class="flex flex-col gap-4 mb-8">
+            <a class="text-lg font-semibold text-slate-700 dark:text-slate-300 hover:text-primary flex items-center gap-3 p-2 rounded-xl"
+                href="index.html">
+                <span class="material-symbols-outlined text-primary">home</span> Home
+            </a>
+            <a class="text-lg font-semibold text-slate-700 dark:text-slate-300 hover:text-primary flex items-center gap-3 p-2 rounded-xl"
+                href="about.html">
+                <span class="material-symbols-outlined">info</span> About
+            </a>
+            <a class="text-lg font-semibold text-slate-700 dark:text-slate-300 hover:text-primary flex items-center gap-3 p-2 rounded-xl"
+                href="awareness.html">
+                <span class="material-symbols-outlined">library_books</span> Health Awareness
+            </a>
+            <a class="text-lg font-semibold text-slate-700 dark:text-slate-300 hover:text-primary flex items-center gap-3 p-2 rounded-xl"
+                href="alerts.html">
+                <span class="material-symbols-outlined">notification_important</span> Outbreak Alerts
+            </a>
+            <a class="text-lg font-semibold text-primary bg-primary/10 flex items-center gap-3 p-2 rounded-xl"
+                href="reminders.html">
+                <span class="material-symbols-outlined">event_note</span> Reminders
+            </a>
+        </nav>
+
+        <div class="h-px bg-slate-100 dark:bg-slate-800 my-4"></div>
+
+        <a class="flex items-center gap-2 px-4 py-4 bg-primary text-white rounded-2xl font-bold justify-center shadow-lg shadow-primary/20"
+            href="chat.html">
+            <span class="material-symbols-outlined">chat_bubble</span> Launch AI Chat
+        </a>
+
+        <div class="mt-auto pt-6 flex flex-col gap-3">
+            <button
+                class="w-full py-3 text-sm font-bold text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 rounded-xl">Login</button>
+            <button
+                class="w-full py-3 bg-primary text-white text-sm font-bold rounded-xl shadow-lg shadow-primary/20">Sign
+                Up</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const closeMobileNavBtn = document.getElementById('closeMobileNavBtn');
+            const mobileNavOverlay = document.getElementById('mobileNavOverlay');
+            const mobileNavDrawer = document.getElementById('mobileNavDrawer');
+
+            function openMobileNav() {
+                mobileNavOverlay.classList.remove('hidden');
+                setTimeout(() => {
+                    mobileNavOverlay.classList.remove('opacity-0');
+                    mobileNavDrawer.classList.remove('translate-x-full');
+                }, 10);
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeMobileNav() {
+                mobileNavOverlay.classList.add('opacity-0');
+                mobileNavDrawer.classList.add('translate-x-full');
+                setTimeout(() => {
+                    mobileNavOverlay.classList.add('hidden');
+                }, 300);
+                document.body.style.overflow = '';
+            }
+
+            if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', openMobileNav);
+            if (closeMobileNavBtn) closeMobileNavBtn.addEventListener('click', closeMobileNav);
+            if (mobileNavOverlay) mobileNavOverlay.addEventListener('click', closeMobileNav);
+        });
+    </script>
+
+    <!-- Global Floating Chat Button -->
+    <a href="chat.html"
+        class="fixed bottom-6 right-6 z-50 flex h-16 w-16 items-center justify-center rounded-full bg-primary text-white shadow-xl shadow-primary/30 transition-transform duration-300 hover:scale-110 hover:bg-primary/90">
+        <span class="material-symbols-outlined text-3xl">chat_bubble</span>
+</body>
+
+</html>

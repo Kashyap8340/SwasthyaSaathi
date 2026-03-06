@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>SwasthyaSaathi AI - Public Health Companion</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800;900&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0ea5e9",
+                        "secondary": "#10b981",
+                        "background-light": "#f8fafc",
+                        "background-dark": "#0f172a",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Public Sans', sans-serif;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 transition-colors duration-300">
+    <!-- Sticky Navbar -->
+    <header
+        class="sticky top-0 z-50 w-full bg-white/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='index.html'">
+                    <div class="bg-primary p-2 rounded-lg text-white">
+                        <span class="material-symbols-outlined text-2xl">health_and_safety</span>
+                    </div>
+                    <span class="text-xl font-extrabold tracking-tight text-slate-900 dark:text-white">SwasthyaSaathi
+                        <span class="text-primary">AI</span></span>
+                </div>
+                <nav class="hidden lg:flex items-center gap-8">
+                    <a class="text-sm font-semibold hover:text-primary transition-colors" href="index.html">Home</a>
+                    <a class="text-sm font-semibold hover:text-primary transition-colors" href="about.html">About</a>
+                    <a class="text-sm font-semibold hover:text-primary transition-colors" href="awareness.html">Health
+                        Awareness</a>
+                    <a class="text-sm font-semibold hover:text-primary transition-colors" href="alerts.html">Outbreak
+                        Alerts</a>
+                    <a class="text-sm font-semibold hover:text-primary transition-colors"
+                        href="reminders.html">Reminders</a>
+                    <a class="flex items-center gap-1 px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-bold hover:bg-primary/20 transition-colors"
+                        href="chat.html">
+                        <span class="material-symbols-outlined text-sm">chat_bubble</span> AI Chat
+                    </a>
+                </nav>
+                <div class="flex items-center gap-3">
+                    <button
+                        class="hidden sm:block px-5 py-2.5 text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-primary">Login</button>
+                    <button
+                        class="hidden sm:block px-5 py-2.5 bg-primary text-white text-sm font-bold rounded-xl shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all">Sign
+                        Up</button>
+                    <!-- Mobile Menu Button -->
+                    <button id="mobileMenuBtn"
+                        class="lg:hidden p-2 -mr-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
+                        <span class="material-symbols-outlined">menu</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <!-- Hero Section -->
+        <section
+            class="relative overflow-hidden pt-16 pb-24 lg:pt-32 lg:pb-40 bg-gradient-to-b from-primary/5 via-transparent to-transparent">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-8">
+                        <div
+                            class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary/10 text-secondary text-xs font-bold uppercase tracking-wider">
+                            <span class="material-symbols-outlined text-sm">verified_user</span> Government Trusted
+                            Initiative
+                        </div>
+                        <h1
+                            class="text-5xl lg:text-7xl font-black text-slate-900 dark:text-white leading-[1.1] tracking-tight">
+                            AI-Powered <span class="text-primary">Public Health</span> Companion
+                        </h1>
+                        <p class="text-lg lg:text-xl text-slate-600 dark:text-slate-400 leading-relaxed max-w-xl">
+                            Helping communities access reliable healthcare awareness through intuitive AI conversations.
+                            Bridging the gap between medical knowledge and public safety.
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <a href="chat.html"
+                                class="flex items-center justify-center gap-2 px-8 py-4 bg-primary text-white rounded-xl text-lg font-bold shadow-xl shadow-primary/25 hover:translate-y-[-2px] transition-transform cursor-pointer">
+                                <span class="material-symbols-outlined">forum</span> Start Chat with SwasthyaSaathi AI
+                            </a>
+                            <button
+                                class="flex items-center justify-center gap-2 px-8 py-4 border-2 border-slate-200 dark:border-slate-700 rounded-xl text-lg font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
+                                Explore Health Information
+                            </button>
+                        </div>
+                        <div class="flex items-center gap-6 pt-4 grayscale opacity-60">
+                            <span class="material-symbols-outlined text-4xl">favorite</span>
+                            <span class="material-symbols-outlined text-4xl">shield_with_heart</span>
+                            <span class="material-symbols-outlined text-4xl">medical_services</span>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <div class="absolute -top-20 -right-20 w-96 h-96 bg-primary/10 rounded-full blur-3xl"></div>
+                        <div
+                            class="relative bg-white dark:bg-slate-800 p-4 rounded-[2rem] shadow-2xl border border-slate-100 dark:border-slate-700">
+                            <img alt="AI Healthcare Assistant Illustration"
+                                class="rounded-[1.5rem] w-full h-[500px] object-cover"
+                                data-alt="Modern healthcare digital assistant showing heart health data"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFueNEGErclpMNfr0dRSDRfiYhLrNcr4WtwUpuuxGYQDPgak6l7EnbwbT361aKwijXPd60qZOb7u4Hju1XVVlD3Ccqd3A36v5vQlTU2YR-nsMarNshy9u7SxBHcEOgv3i6GVgT2x6tXSatRbtiV1TLyTSK-YfiA3go7LaaKnRPAlSWp97wl7KNuNPMIoTqIB_tLaP457KKcWlUf6JTFaO39VGviNkabORE3sNayMmwbsGLqWRfzxh0S2vQ_iDLuB8KKjviQglu2mM" />
+                            <div
+                                class="absolute bottom-10 -left-8 bg-white dark:bg-slate-900 p-5 rounded-2xl shadow-xl border border-slate-50 dark:border-slate-700 max-w-[200px]">
+                                <div class="flex items-center gap-3 mb-2">
+                                    <div
+                                        class="size-8 rounded-full bg-secondary flex items-center justify-center text-white">
+                                        <span class="material-symbols-outlined text-sm">check</span>
+                                    </div>
+                                    <span class="text-xs font-bold">Vaccine Reminder</span>
+                                </div>
+                                <p class="text-[10px] text-slate-500">Your scheduled polio dose is due in 2 days.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Problem & Solution -->
+        <section class="py-24 bg-white dark:bg-slate-900">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <h2 class="text-3xl lg:text-4xl font-black mb-4">Bridging the Gap in Healthcare</h2>
+                    <p class="text-slate-600 dark:text-slate-400">We solve critical public health challenges using
+                        smart, accessible technology.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div
+                        class="p-8 rounded-3xl bg-background-light dark:bg-slate-800 border border-slate-100 dark:border-slate-700 hover:border-primary/50 transition-colors">
+                        <div class="size-14 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center mb-6">
+                            <span class="material-symbols-outlined text-3xl">error_outline</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Lack of Awareness</h3>
+                        <p class="text-slate-600 dark:text-slate-400">Providing instant, evidence-based medical
+                            knowledge to those in remote areas without internet access.</p>
+                    </div>
+                    <div
+                        class="p-8 rounded-3xl bg-background-light dark:bg-slate-800 border border-slate-100 dark:border-slate-700 hover:border-primary/50 transition-colors">
+                        <div
+                            class="size-14 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-6">
+                            <span class="material-symbols-outlined text-3xl">language</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Language Barriers</h3>
+                        <p class="text-slate-600 dark:text-slate-400">Multilingual AI guidance that speaks 15+ local
+                            languages, ensuring no one is left behind.</p>
+                    </div>
+                    <div
+                        class="p-8 rounded-3xl bg-background-light dark:bg-slate-800 border border-slate-100 dark:border-slate-700 hover:border-primary/50 transition-colors">
+                        <div
+                            class="size-14 bg-secondary/10 text-secondary rounded-2xl flex items-center justify-center mb-6">
+                            <span class="material-symbols-outlined text-3xl">notifications_active</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Missed Vaccines</h3>
+                        <p class="text-slate-600 dark:text-slate-400">Automated SMS and WhatsApp alerts for immunization
+                            schedules and medicine doses.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Key Features -->
+        <section class="py-24 bg-background-light dark:bg-background-dark">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+                    <div class="max-w-xl">
+                        <h2 class="text-4xl font-black mb-4">Empowering Communities with Smart Health Tools</h2>
+                        <p class="text-slate-600 dark:text-slate-400 text-lg">Our platform is designed to be accessible,
+                            reliable, and available 24/7 across multiple devices.</p>
+                    </div>
+                    <button
+                        class="px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-xl font-bold">View
+                        All Features</button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div
+                        class="group bg-white dark:bg-slate-800 p-8 rounded-3xl border border-slate-200 dark:border-slate-700 hover:shadow-xl transition-all">
+                        <div
+                            class="size-12 bg-primary/10 text-primary rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                            <span class="material-symbols-outlined">chat</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Multilingual AI Chatbot</h3>
+                        <p class="text-slate-500 dark:text-slate-400">Talk to our AI in your local language. Natural,
+                            easy, and smart conversation.</p>
+                    </div>
+                    <div
+                        class="group bg-white dark:bg-slate-800 p-8 rounded-3xl border border-slate-200 dark:border-slate-700 hover:shadow-xl transition-all">
+                        <div
+                            class="size-12 bg-secondary/10 text-secondary rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                            <span class="material-symbols-outlined">stethoscope</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Disease Guidance</h3>
+                        <p class="text-slate-500 dark:text-slate-400">Step-by-step guidance for managing common symptoms
+                            and knowing when to see a doctor.</p>
+                    </div>
+                    <div
+                        class="group bg-white dark:bg-slate-800 p-8 rounded-3xl border border-slate-200 dark:border-slate-700 hover:shadow-xl transition-all">
+                        <div
+                            class="size-12 bg-orange-100 text-orange-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                            <span class="material-symbols-outlined">warning</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Real-Time Alerts</h3>
+                        <p class="text-slate-500 dark:text-slate-400">Stay informed about local disease outbreaks and
+                            emergency health advisories.</p>
+                    </div>
+                    <div
+                        class="group bg-white dark:bg-slate-800 p-8 rounded-3xl border border-slate-200 dark:border-slate-700 hover:shadow-xl transition-all">
+                        <div
+                            class="size-12 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                            <span class="material-symbols-outlined">alarm</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Reminders</h3>
+                        <p class="text-slate-500 dark:text-slate-400">Never miss a vaccine dose or medical checkup with
+                            automated personalized reminders.</p>
+                    </div>
+                    <div
+                        class="group bg-white dark:bg-slate-800 p-8 rounded-3xl border border-slate-200 dark:border-slate-700 hover:shadow-xl transition-all">
+                        <div
+                            class="size-12 bg-primary/10 text-primary rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                            <span class="material-symbols-outlined">devices</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Multi-platform Access</h3>
+                        <p class="text-slate-500 dark:text-slate-400">Seamlessly access our services via Web, WhatsApp,
+                            or even simple SMS for feature phones.</p>
+                    </div>
+                    <div
+                        class="group bg-white dark:bg-slate-800 p-8 rounded-3xl border border-slate-200 dark:border-slate-700 hover:shadow-xl transition-all">
+                        <div
+                            class="size-12 bg-green-100 text-green-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                            <span class="material-symbols-outlined">shield</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Privacy Protected</h3>
+                        <p class="text-slate-500 dark:text-slate-400">Your health data is encrypted and managed
+                            according to national health standards.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- How It Works -->
+        <section class="py-24 bg-white dark:bg-slate-900">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-4xl font-black mb-16">Simple 4-Step Journey</h2>
+                <div class="relative grid md:grid-cols-4 gap-12">
+                    <!-- Connector line for desktop -->
+                    <div
+                        class="hidden md:block absolute top-12 left-0 w-full h-0.5 bg-slate-100 dark:bg-slate-800 -z-10">
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div
+                            class="size-24 rounded-full bg-primary text-white flex items-center justify-center text-3xl font-black border-8 border-white dark:border-slate-900 shadow-xl mb-6">
+                            1</div>
+                        <h4 class="text-xl font-bold mb-2">Ask</h4>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm">Ask your health query in any language</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div
+                            class="size-24 rounded-full bg-primary text-white flex items-center justify-center text-3xl font-black border-8 border-white dark:border-slate-900 shadow-xl mb-6">
+                            2</div>
+                        <h4 class="text-xl font-bold mb-2">Guidance</h4>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm">Receive instant AI-driven medical guidance
+                        </p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div
+                            class="size-24 rounded-full bg-primary text-white flex items-center justify-center text-3xl font-black border-8 border-white dark:border-slate-900 shadow-xl mb-6">
+                            3</div>
+                        <h4 class="text-xl font-bold mb-2">Reminders</h4>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm">Set automated alerts for future care</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div
+                            class="size-24 rounded-full bg-primary text-white flex items-center justify-center text-3xl font-black border-8 border-white dark:border-slate-900 shadow-xl mb-6">
+                            4</div>
+                        <h4 class="text-xl font-bold mb-2">Consult</h4>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm">Get connected to local facilities if
+                            needed</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Multi-Platform -->
+        <section class="py-24 bg-background-light dark:bg-background-dark overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-black mb-4">Access Everywhere</h2>
+                    <p class="text-slate-600 dark:text-slate-400">Choose the way you want to communicate with us.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Web Card -->
+                    <div
+                        class="relative bg-white dark:bg-slate-800 rounded-[2.5rem] p-8 border border-slate-200 dark:border-slate-700 shadow-xl group">
+                        <div class="flex justify-between items-start mb-8">
+                            <span class="material-symbols-outlined text-4xl text-primary">public</span>
+                            <span
+                                class="px-3 py-1 bg-primary/10 text-primary text-[10px] font-bold rounded-full">RECOMMENDED</span>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4">Web Application</h3>
+                        <div
+                            class="bg-slate-50 dark:bg-slate-900 rounded-2xl p-4 mb-6 border border-slate-100 dark:border-slate-700">
+                            <div class="flex gap-2 items-start mb-3">
+                                <div class="size-6 bg-primary rounded-full flex-shrink-0"></div>
+                                <div class="bg-primary/10 p-2 rounded-lg text-[10px]">How can I help you today?</div>
+                            </div>
+                            <div class="flex gap-2 items-start justify-end">
+                                <div class="bg-slate-200 dark:bg-slate-700 p-2 rounded-lg text-[10px]">Tell me about UTI
+                                    symptoms.</div>
+                                <div class="size-6 bg-slate-300 dark:bg-slate-600 rounded-full flex-shrink-0"></div>
+                            </div>
+                        </div>
+                        <button onclick="window.location.href='chat.html'"
+                            class="w-full py-3 bg-primary text-white rounded-xl font-bold group-hover:shadow-lg transition-all cursor-pointer">Open
+                            Web App</button>
+                    </div>
+                    <!-- WhatsApp Card -->
+                    <div
+                        class="relative bg-white dark:bg-slate-800 rounded-[2.5rem] p-8 border border-slate-200 dark:border-slate-700 shadow-xl group">
+                        <div class="flex justify-between items-start mb-8">
+                            <span class="material-symbols-outlined text-4xl text-[#25D366]">chat</span>
+                            <span
+                                class="px-3 py-1 bg-[#25D366]/10 text-[#25D366] text-[10px] font-bold rounded-full">EASIEST</span>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4">WhatsApp AI</h3>
+                        <div
+                            class="bg-slate-50 dark:bg-slate-900 rounded-2xl p-4 mb-6 border border-slate-100 dark:border-slate-700">
+                            <div class="flex gap-2 items-start mb-3">
+                                <div class="size-6 bg-[#25D366] rounded-full flex-shrink-0"></div>
+                                <div class="bg-slate-100 dark:bg-slate-800 p-2 rounded-lg text-[10px]">Type 'HI' to
+                                    start chatting.</div>
+                            </div>
+                            <div class="flex gap-2 items-start justify-end">
+                                <div
+                                    class="bg-[#dcf8c6] dark:bg-emerald-900 p-2 rounded-lg text-[10px] text-slate-900 dark:text-slate-100">
+                                    HI</div>
+                                <div class="size-6 bg-slate-300 dark:bg-slate-600 rounded-full flex-shrink-0"></div>
+                            </div>
+                        </div>
+                        <button onclick="window.location.href='chat.html'"
+                            class="w-full py-3 bg-[#25D366] text-white rounded-xl font-bold group-hover:shadow-lg transition-all cursor-pointer">Chat
+                            with AI</button>
+                    </div>
+                    <!-- SMS Card -->
+                    <div
+                        class="relative bg-white dark:bg-slate-800 rounded-[2.5rem] p-8 border border-slate-200 dark:border-slate-700 shadow-xl group">
+                        <div class="flex justify-between items-start mb-8">
+                            <span class="material-symbols-outlined text-4xl text-orange-500">sms</span>
+                            <span
+                                class="px-3 py-1 bg-orange-100 text-orange-600 text-[10px] font-bold rounded-full">OFFLINE</span>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4">SMS Alerts</h3>
+                        <div
+                            class="bg-slate-50 dark:bg-slate-900 rounded-2xl p-4 mb-6 border border-slate-100 dark:border-slate-700">
+                            <div class="flex gap-2 items-start mb-3">
+                                <div class="size-6 bg-orange-500 rounded-full flex-shrink-0"></div>
+                                <div class="bg-slate-100 dark:bg-slate-800 p-2 rounded-lg text-[10px] italic">SMS:
+                                    Alert! Fever cases rising in your area.</div>
+                            </div>
+                        </div>
+                        <button
+                            class="w-full py-3 bg-slate-900 dark:bg-slate-700 text-white rounded-xl font-bold group-hover:shadow-lg transition-all">Subscribe
+                            to SMS</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Awareness Topics -->
+        <section class="py-24 bg-white dark:bg-slate-900">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center mb-12">
+                    <h2 class="text-3xl font-black">Popular Health Topics</h2>
+                    <a class="text-primary font-bold hover:underline" href="#">Explore all topics →</a>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                    <div
+                        class="group cursor-pointer bg-background-light dark:bg-slate-800 p-6 rounded-3xl text-center hover:bg-primary hover:text-white transition-all">
+                        <span
+                            class="material-symbols-outlined text-4xl mb-4 group-hover:scale-110 transition-transform">neurology</span>
+                        <p class="font-bold">Dementia</p>
+                    </div>
+                    <div
+                        class="group cursor-pointer bg-background-light dark:bg-slate-800 p-6 rounded-3xl text-center hover:bg-primary hover:text-white transition-all">
+                        <span
+                            class="material-symbols-outlined text-4xl mb-4 group-hover:scale-110 transition-transform">water_drop</span>
+                        <p class="font-bold">UTI</p>
+                    </div>
+                    <div
+                        class="group cursor-pointer bg-background-light dark:bg-slate-800 p-6 rounded-3xl text-center hover:bg-primary hover:text-white transition-all">
+                        <span
+                            class="material-symbols-outlined text-4xl mb-4 group-hover:scale-110 transition-transform">thermometer</span>
+                        <p class="font-bold">Viral Fever</p>
+                    </div>
+                    <div
+                        class="group cursor-pointer bg-background-light dark:bg-slate-800 p-6 rounded-3xl text-center hover:bg-primary hover:text-white transition-all">
+                        <span
+                            class="material-symbols-outlined text-4xl mb-4 group-hover:scale-110 transition-transform">bug_report</span>
+                        <p class="font-bold">Dengue</p>
+                    </div>
+                    <div
+                        class="group cursor-pointer bg-background-light dark:bg-slate-800 p-6 rounded-3xl text-center hover:bg-primary hover:text-white transition-all">
+                        <span
+                            class="material-symbols-outlined text-4xl mb-4 group-hover:scale-110 transition-transform">vaccines</span>
+                        <p class="font-bold">Vaccination</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Final CTA -->
+        <section class="py-20 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-5xl mx-auto bg-primary rounded-[3rem] p-12 lg:p-20 text-center relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32 blur-3xl"></div>
+                <div class="absolute bottom-0 left-0 w-64 h-64 bg-black/10 rounded-full -ml-32 -mb-32 blur-3xl"></div>
+                <h2 class="text-4xl lg:text-5xl font-black text-white mb-6">Start Your Health Awareness Journey Today
+                </h2>
+                <p class="text-white/80 text-lg lg:text-xl mb-10 max-w-2xl mx-auto">Join thousands of others in making
+                    informed health decisions with the help of SwasthyaSaathi AI.</p>
+                <a href="chat.html"
+                    class="inline-block px-10 py-5 bg-white text-primary rounded-2xl text-xl font-black shadow-2xl hover:scale-105 transition-transform cursor-pointer">
+                    Chat with SwasthyaSaathi AI
+                </a>
+            </div>
+        </section>
+    </main>
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-300 py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-12 mb-16">
+                <div class="space-y-6">
+                    <div class="flex items-center gap-2">
+                        <div class="bg-primary p-2 rounded-lg text-white">
+                            <span class="material-symbols-outlined text-xl">health_and_safety</span>
+                        </div>
+                        <span class="text-lg font-extrabold tracking-tight text-white">SwasthyaSaathi <span
+                                class="text-primary">AI</span></span>
+                    </div>
+                    <p class="text-sm leading-relaxed">
+                        Designed to improve public health awareness through AI. We empower citizens with reliable and
+                        accessible healthcare information.
+                    </p>
+                    <div class="bg-red-500/10 border border-red-500/20 p-4 rounded-xl">
+                        <p class="text-xs font-bold text-red-400 mb-1">EMERGENCY SERVICES</p>
+                        <p class="text-xl font-black text-white">Call 108</p>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-6">Quick Links</h4>
+                    <ul class="space-y-4 text-sm">
+                        <li><a class="hover:text-primary transition-colors" href="index.html">Home</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="about.html">About AI Assistant</a>
+                        </li>
+                        <li><a class="hover:text-primary transition-colors" href="awareness.html">Health Awareness
+                                Blog</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="alerts.html">Outbreak Alerts</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="#">Vaccination Schedule</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-6">Support</h4>
+                    <ul class="space-y-4 text-sm">
+                        <li><a class="hover:text-primary transition-colors" href="#">Contact Us</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="#">Privacy Policy</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="#">Terms of Service</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="#">FAQs</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="#">User Guide</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-6">Contact Info</h4>
+                    <ul class="space-y-4 text-sm">
+                        <li class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-primary text-sm">location_on</span>
+                            <span>Ministry of Health, New Delhi, India</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-primary text-sm">mail</span>
+                            <span>support@swasthyasaathi.gov.in</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-primary text-sm">call</span>
+                            <span>1800-XXX-XXXX (Toll Free)</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div
+                class="pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-xs">
+                <p>© 2024 SwasthyaSaathi AI. All rights reserved.</p>
+                <div class="flex gap-6">
+                    <a class="hover:text-white" href="#">English</a>
+                    <a class="hover:text-white" href="#">हिन्दी</a>
+                    <a class="hover:text-white" href="#">ଓଡ଼ିଆ</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Global Floating Chat Button -->
+    <a href="chat.html"
+        class="fixed bottom-6 right-6 z-40 flex h-16 w-16 items-center justify-center rounded-full bg-primary text-white shadow-xl shadow-primary/30 transition-transform duration-300 hover:scale-110 hover:bg-primary/90">
+        <span class="material-symbols-outlined text-3xl">chat_bubble</span>
+    </a>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobileNavOverlay"
+        class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[60] hidden transition-opacity opacity-0 lg:hidden">
+    </div>
+    <div id="mobileNavDrawer"
+        class="fixed top-0 right-0 h-full w-4/5 max-w-sm bg-white dark:bg-background-dark shadow-2xl z-[70] transform translate-x-full transition-transform duration-300 ease-in-out lg:hidden flex flex-col">
+        <div class="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+            <span class="text-lg font-extrabold tracking-tight text-slate-900 dark:text-white">Menu</span>
+            <button id="closeMobileNavBtn"
+                class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div class="flex-1 overflow-y-auto p-6 flex flex-col gap-6">
+            <nav class="flex flex-col gap-4">
+                <a class="text-lg font-semibold text-slate-700 dark:text-slate-200 hover:text-primary"
+                    href="index.html">Home</a>
+                <a class="text-lg font-semibold text-slate-700 dark:text-slate-200 hover:text-primary"
+                    href="about.html">About</a>
+                <a class="text-lg font-semibold text-slate-700 dark:text-slate-200 hover:text-primary"
+                    href="awareness.html">Health Awareness</a>
+                <a class="text-lg font-semibold text-slate-700 dark:text-slate-200 hover:text-primary"
+                    href="alerts.html">Outbreak Alerts</a>
+                <a class="text-lg font-semibold text-slate-700 dark:text-slate-200 hover:text-primary"
+                    href="reminders.html">Reminders</a>
+            </nav>
+            <div class="h-px bg-slate-100 dark:bg-slate-800 my-2"></div>
+            <a class="flex items-center gap-2 px-4 py-3 bg-primary/10 text-primary rounded-xl font-bold justify-center"
+                href="chat.html">
+                <span class="material-symbols-outlined">chat_bubble</span> AI Chat
+            </a>
+            <div class="flex flex-col gap-3 mt-auto pt-6">
+                <button
+                    class="w-full py-3 text-sm font-bold text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 rounded-xl">Login</button>
+                <button
+                    class="w-full py-3 bg-primary text-white text-sm font-bold rounded-xl shadow-lg shadow-primary/20">Sign
+                    Up</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile Navigation Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const closeMobileNavBtn = document.getElementById('closeMobileNavBtn');
+            const mobileNavOverlay = document.getElementById('mobileNavOverlay');
+            const mobileNavDrawer = document.getElementById('mobileNavDrawer');
+
+            function openMobileNav() {
+                mobileNavOverlay.classList.remove('hidden');
+                // slight delay for rendering block before opacity transition
+                setTimeout(() => {
+                    mobileNavOverlay.classList.remove('opacity-0');
+                    mobileNavDrawer.classList.remove('translate-x-full');
+                }, 10);
+                document.body.style.overflow = 'hidden'; // prevent trailing scroll
+            }
+
+            function closeMobileNav() {
+                mobileNavOverlay.classList.add('opacity-0');
+                mobileNavDrawer.classList.add('translate-x-full');
+                setTimeout(() => {
+                    mobileNavOverlay.classList.add('hidden');
+                }, 300);
+                document.body.style.overflow = '';
+            }
+
+            if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', openMobileNav);
+            if (closeMobileNavBtn) closeMobileNavBtn.addEventListener('click', closeMobileNav);
+            if (mobileNavOverlay) mobileNavOverlay.addEventListener('click', closeMobileNav);
+        });
+    </script>
+</body>
+
+</html>

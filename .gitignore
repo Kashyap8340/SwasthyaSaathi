@@ -1,0 +1,8 @@
+node_modules/
+.env
+*.log
+.gemini/
+brain/
+tmp/
+.vscode/
+.DS_Store

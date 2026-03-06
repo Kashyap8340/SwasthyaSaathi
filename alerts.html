@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800;900&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1879cd",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#111a21",
+                        "alert-red": "#ef4444",
+                        "alert-orange": "#f97316",
+                        "alert-green": "#22c55e",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <title>SwasthyaSaathi AI - Outbreak Alerts</title>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
+    <div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+        <div class="layout-container flex h-full grow flex-col">
+            <!-- Top Navigation Bar -->
+            <header
+                class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark px-6 md:px-10 py-3 sticky top-0 z-50">
+                <div class="flex items-center gap-4 text-primary cursor-pointer"
+                    onclick="window.location.href='index.html'">
+                    <div class="size-8 flex items-center justify-center bg-primary/10 rounded-lg">
+                        <span class="material-symbols-outlined text-primary text-2xl">health_metrics</span>
+                    </div>
+                    <h2 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-tight">
+                        SwasthyaSaathi AI</h2>
+                </div>
+                <div class="flex flex-1 justify-end gap-4 md:gap-8 items-center">
+                    <nav class="hidden md:flex gap-6">
+                        <a class="text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-primary transition-colors"
+                            href="index.html">Home</a>
+                        <a class="text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-primary transition-colors"
+                            href="about.html">About</a>
+                        <a class="text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-primary transition-colors"
+                            href="awareness.html">Health Awareness</a>
+                        <a class="text-sm font-semibold text-primary border-b-2 border-primary pb-1"
+                            href="alerts.html">Outbreak Alerts</a>
+                        <a class="text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-primary transition-colors"
+                            href="reminders.html">Reminders</a>
+                        <a class="text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-primary transition-colors"
+                            href="chat.html">Consult</a>
+                    </nav>
+                    <div class="flex gap-2">
+                        <button
+                            class="flex items-center justify-center rounded-xl h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+                            <span class="material-symbols-outlined">notifications</span>
+                        </button>
+                        <button id="mobileMenuBtn"
+                            class="md:hidden flex items-center justify-center rounded-xl h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+                            <span class="material-symbols-outlined">menu</span>
+                        </button>
+                    </div>
+                </div>
+            </header>
+            <main class="flex-1 max-w-7xl mx-auto w-full p-4 md:p-8">
+                <!-- Hero Header Section -->
+                <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
+                    <div class="max-w-2xl">
+                        <h1
+                            class="text-slate-900 dark:text-slate-100 text-3xl md:text-4xl font-black leading-tight tracking-tight mb-2">
+                            Disease Outbreak Alerts</h1>
+                        <p class="text-slate-600 dark:text-slate-400 text-lg">
+                            Stay informed about disease outbreaks and health advisories in your area to take timely
+                            preventive action.
+                        </p>
+                    </div>
+                    <!-- Location Selectors -->
+                    <div class="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
+                        <div class="flex flex-col flex-1 min-w-[160px]">
+                            <label
+                                class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1 ml-1">State</label>
+                            <select
+                                class="form-select rounded-xl border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 h-12 focus:ring-primary focus:border-primary">
+                                <option>Maharashtra</option>
+                                <option>Karnataka</option>
+                                <option>Delhi</option>
+                                <option>Tamil Nadu</option>
+                            </select>
+                        </div>
+                        <div class="flex flex-col flex-1 min-w-[160px]">
+                            <label
+                                class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1 ml-1">District</label>
+                            <select
+                                class="form-select rounded-xl border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 h-12 focus:ring-primary focus:border-primary">
+                                <option>Pune</option>
+                                <option>Mumbai City</option>
+                                <option>Nagpur</option>
+                                <option>Nashik</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <!-- Map and Main Content -->
+                    <div class="lg:col-span-8 space-y-8">
+                        <!-- Map View Card -->
+                        <div
+                            class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
+                            <div
+                                class="p-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+                                <h3 class="font-bold flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-primary">map</span>
+                                    District Risk Map
+                                </h3>
+                                <div class="flex gap-4 text-xs font-medium">
+                                    <span class="flex items-center gap-1"><span
+                                            class="size-2 rounded-full bg-alert-red"></span> High</span>
+                                    <span class="flex items-center gap-1"><span
+                                            class="size-2 rounded-full bg-alert-orange"></span> Moderate</span>
+                                    <span class="flex items-center gap-1"><span
+                                            class="size-2 rounded-full bg-alert-green"></span> Low</span>
+                                </div>
+                            </div>
+                            <div class="aspect-video bg-slate-50 dark:bg-slate-950 relative flex items-center justify-center overflow-hidden"
+                                data-location="Pune District" style="">
+                                <!-- Placeholder for an interactive SVG map style -->
+                                <div
+                                    class="absolute inset-0 opacity-20 bg-[radial-gradient(#1879cd_1px,transparent_1px)] [background-size:20px_20px]">
+                                </div>
+                                <svg class="w-full h-full p-8" viewbox="0 0 400 300">
+                                    <path class="cursor-pointer hover:fill-opacity-100 transition-all"
+                                        d="M100 50 L150 40 L180 80 L160 120 L110 130 Z" fill="#ef4444"
+                                        fill-opacity="0.8" stroke="white" stroke-width="2"></path>
+                                    <path class="cursor-pointer hover:fill-opacity-100 transition-all"
+                                        d="M180 80 L250 60 L280 100 L240 140 L160 120 Z" fill="#f97316"
+                                        fill-opacity="0.8" stroke="white" stroke-width="2"></path>
+                                    <path class="cursor-pointer hover:fill-opacity-100 transition-all"
+                                        d="M110 130 L160 120 L240 140 L220 200 L120 180 Z" fill="#22c55e"
+                                        fill-opacity="0.8" stroke="white" stroke-width="2"></path>
+                                    <path class="cursor-pointer hover:fill-opacity-100 transition-all"
+                                        d="M250 60 L320 40 L350 90 L280 100 Z" fill="#22c55e" fill-opacity="0.8"
+                                        stroke="white" stroke-width="2"></path>
+                                    <path class="cursor-pointer hover:fill-opacity-100 transition-all"
+                                        d="M240 140 L280 100 L350 90 L380 150 L320 180 Z" fill="#f97316"
+                                        fill-opacity="0.8" stroke="white" stroke-width="2"></path>
+                                </svg>
+                                <div
+                                    class="absolute bottom-4 left-4 bg-white/90 dark:bg-slate-900/90 p-3 rounded-lg border border-slate-200 dark:border-slate-700 text-sm shadow-lg">
+                                    <p class="font-bold">Haveli Taluka</p>
+                                    <p class="text-alert-red font-semibold">High Risk: Dengue</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Active Alerts -->
+                        <div class="space-y-4">
+                            <h3 class="font-bold text-xl flex items-center gap-2">
+                                <span class="material-symbols-outlined text-alert-red">warning</span>
+                                Active Health Alerts
+                            </h3>
+                            <!-- High Risk Alert -->
+                            <div
+                                class="flex flex-col md:flex-row gap-4 p-5 bg-red-50 dark:bg-red-900/10 border border-red-100 dark:border-red-900/30 rounded-xl">
+                                <div
+                                    class="size-12 rounded-full bg-alert-red flex items-center justify-center shrink-0">
+                                    <span class="material-symbols-outlined text-white">bug_report</span>
+                                </div>
+                                <div>
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <h4 class="font-bold text-red-900 dark:text-red-400">Dengue Alert</h4>
+                                        <span
+                                            class="bg-alert-red text-white text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">High
+                                            Risk</span>
+                                    </div>
+                                    <p class="text-red-800 dark:text-red-300 leading-relaxed mb-3">
+                                        Dengue cases are increasing in your district. Avoid stagnant water and use
+                                        mosquito protection. Local clinics report a 25% surge this week.
+                                    </p>
+                                    <button
+                                        class="text-sm font-bold text-red-900 dark:text-red-400 underline underline-offset-4 hover:text-red-700">View
+                                        Prevention Guide</button>
+                                </div>
+                            </div>
+                            <!-- Moderate Risk Alert -->
+                            <div
+                                class="flex flex-col md:flex-row gap-4 p-5 bg-orange-50 dark:bg-orange-900/10 border border-orange-100 dark:border-orange-900/30 rounded-xl">
+                                <div
+                                    class="size-12 rounded-full bg-alert-orange flex items-center justify-center shrink-0">
+                                    <span class="material-symbols-outlined text-white">thermostat</span>
+                                </div>
+                                <div>
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <h4 class="font-bold text-orange-900 dark:text-orange-400">Heatwave Advisory
+                                        </h4>
+                                        <span
+                                            class="bg-alert-orange text-white text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Moderate</span>
+                                    </div>
+                                    <p class="text-orange-800 dark:text-orange-300 leading-relaxed mb-3">
+                                        Severe heatwave expected. Stay hydrated and avoid outdoors during peak hours.
+                                        Temperatures expected to touch 44°C.
+                                    </p>
+                                    <button
+                                        class="text-sm font-bold text-orange-900 dark:text-orange-400 underline underline-offset-4 hover:text-orange-700">Cooling
+                                        Centers Nearby</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Preventive Guidance Section -->
+                        <section>
+                            <h3 class="font-bold text-xl mb-4">Preventive Guidance</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div
+                                    class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-primary transition-all shadow-sm">
+                                    <div class="size-10 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+                                        <span class="material-symbols-outlined text-primary">water_drop</span>
+                                    </div>
+                                    <h4 class="font-bold text-lg mb-2">Dengue Protection</h4>
+                                    <ul class="text-slate-600 dark:text-slate-400 text-sm space-y-2">
+                                        <li class="flex items-start gap-2"><span
+                                                class="material-symbols-outlined text-alert-green text-sm mt-0.5">check_circle</span>
+                                            Use mosquito nets or repellents.</li>
+                                        <li class="flex items-start gap-2"><span
+                                                class="material-symbols-outlined text-alert-green text-sm mt-0.5">check_circle</span>
+                                            Drain water from coolers and pots.</li>
+                                        <li class="flex items-start gap-2"><span
+                                                class="material-symbols-outlined text-alert-green text-sm mt-0.5">check_circle</span>
+                                            Wear full-sleeved clothing.</li>
+                                    </ul>
+                                </div>
+                                <div
+                                    class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-primary transition-all shadow-sm">
+                                    <div class="size-10 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+                                        <span class="material-symbols-outlined text-primary">glass_cup</span>
+                                    </div>
+                                    <h4 class="font-bold text-lg mb-2">Heatwave Safety</h4>
+                                    <ul class="text-slate-600 dark:text-slate-400 text-sm space-y-2">
+                                        <li class="flex items-start gap-2"><span
+                                                class="material-symbols-outlined text-alert-green text-sm mt-0.5">check_circle</span>
+                                            Drink plenty of water and ORS.</li>
+                                        <li class="flex items-start gap-2"><span
+                                                class="material-symbols-outlined text-alert-green text-sm mt-0.5">check_circle</span>
+                                            Use umbrellas or hats when outside.</li>
+                                        <li class="flex items-start gap-2"><span
+                                                class="material-symbols-outlined text-alert-green text-sm mt-0.5">check_circle</span>
+                                            Seek shade during 12 PM - 4 PM.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                    <!-- Sidebar Content -->
+                    <div class="lg:col-span-4 space-y-8">
+                        <!-- Recent Advisories Timeline -->
+                        <div
+                            class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
+                            <h3 class="font-bold text-lg mb-6 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary">history</span>
+                                Recent Advisories
+                            </h3>
+                            <div
+                                class="space-y-6 relative before:absolute before:left-[11px] before:top-2 before:bottom-2 before:w-0.5 before:bg-slate-100 dark:before:bg-slate-800">
+                                <div class="relative pl-8">
+                                    <div
+                                        class="absolute left-0 top-1.5 size-6 rounded-full bg-primary flex items-center justify-center border-4 border-white dark:border-slate-900 shadow-sm z-10">
+                                    </div>
+                                    <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Today,
+                                        10:30 AM</p>
+                                    <p class="text-sm font-semibold">Increased Cholera vigil in Western Pune regions.
+                                    </p>
+                                </div>
+                                <div class="relative pl-8">
+                                    <div
+                                        class="absolute left-0 top-1.5 size-6 rounded-full bg-slate-300 dark:bg-slate-700 flex items-center justify-center border-4 border-white dark:border-slate-900 shadow-sm z-10">
+                                    </div>
+                                    <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Yesterday
+                                    </p>
+                                    <p class="text-sm font-semibold text-slate-600 dark:text-slate-400">Vaccination
+                                        drive scheduled for School #42.</p>
+                                </div>
+                                <div class="relative pl-8">
+                                    <div
+                                        class="absolute left-0 top-1.5 size-6 rounded-full bg-slate-300 dark:bg-slate-700 flex items-center justify-center border-4 border-white dark:border-slate-900 shadow-sm z-10">
+                                    </div>
+                                    <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">15 May
+                                        2024</p>
+                                    <p class="text-sm font-semibold text-slate-600 dark:text-slate-400">Air quality
+                                        advisory: PM2.5 levels improved.</p>
+                                </div>
+                            </div>
+                            <button
+                                class="w-full mt-6 py-2 rounded-lg text-sm font-bold text-primary bg-primary/5 hover:bg-primary/10 transition-colors">See
+                                All Advisories</button>
+                        </div>
+                        <!-- Emergency Contacts -->
+                        <div
+                            class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
+                            <h3 class="font-bold text-lg mb-4 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary">emergency</span>
+                                Emergency Help
+                            </h3>
+                            <div class="space-y-3">
+                                <div
+                                    class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-950 rounded-lg border border-slate-100 dark:border-slate-800">
+                                    <div class="flex items-center gap-3">
+                                        <span class="material-symbols-outlined text-alert-red">ambulance</span>
+                                        <div>
+                                            <p class="text-sm font-bold">108 Ambulance</p>
+                                            <p class="text-[10px] text-slate-500 font-medium">Available 24/7</p>
+                                        </div>
+                                    </div>
+                                    <a class="bg-primary text-white p-2 rounded-full hover:opacity-90 transition-opacity"
+                                        href="tel:108">
+                                        <span class="material-symbols-outlined text-sm">call</span>
+                                    </a>
+                                </div>
+                                <div
+                                    class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-950 rounded-lg border border-slate-100 dark:border-slate-800">
+                                    <div class="flex items-center gap-3">
+                                        <span class="material-symbols-outlined text-primary">medical_services</span>
+                                        <div>
+                                            <p class="text-sm font-bold">Local Health Dept</p>
+                                            <p class="text-[10px] text-slate-500 font-medium">Pune Municipal Corp</p>
+                                        </div>
+                                    </div>
+                                    <a class="bg-primary text-white p-2 rounded-full hover:opacity-90 transition-opacity"
+                                        href="#">
+                                        <span class="material-symbols-outlined text-sm">call</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- AI CTA Card -->
+                        <div class="bg-primary rounded-xl p-6 text-white shadow-lg overflow-hidden relative">
+                            <div class="absolute -right-4 -bottom-4 size-32 bg-white/10 rounded-full blur-2xl"></div>
+                            <div class="relative z-10">
+                                <h3 class="font-bold text-lg mb-2">Need More Information?</h3>
+                                <p class="text-sm text-blue-100 mb-6 leading-relaxed">
+                                    Our AI assistant can help you understand symptoms, find nearby hospitals, or get
+                                    Get immediate answers and guidance regarding the continuous Dengue risk right here.
+                                </p>
+                                <button onclick="window.location.href='chat.html'"
+                                    class="w-full py-3 bg-white text-primary font-bold rounded-lg hover:bg-blue-50 transition-colors flex items-center justify-center gap-2 cursor-pointer">
+                                    <span class="material-symbols-outlined">smart_toy</span>
+                                    Ask SwasthyaSaathi AI
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <!-- Footer -->
+            <footer
+                class="bg-white dark:bg-background-dark border-t border-slate-200 dark:border-slate-800 py-8 px-6 mt-12">
+                <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div class="flex items-center gap-3">
+                        <div class="size-6 flex items-center justify-center bg-primary/10 rounded">
+                            <span class="material-symbols-outlined text-primary text-lg">health_metrics</span>
+                        </div>
+                        <p class="text-slate-900 dark:text-slate-100 font-bold text-sm leading-tight">SwasthyaSaathi AI
+                        </p>
+                    </div>
+                    <p class="text-slate-500 text-xs font-medium">© 2024 SwasthyaSaathi AI. All rights reserved. Not a
+                        substitute for medical diagnosis.</p>
+                    <div class="flex gap-6 text-xs font-medium">
+                        <a class="text-slate-500 hover:text-primary transition-colors" href="#">English</a>
+                        <a class="text-slate-500 hover:text-primary transition-colors" href="#">हिन्दी</a>
+                        <a class="text-slate-500 hover:text-primary transition-colors" href="#">ଓଡ଼ିଆ</a>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobileNavOverlay"
+        class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[100] hidden opacity-0 transition-opacity duration-300">
+    </div>
+    <div id="mobileNavDrawer"
+        class="fixed top-0 right-0 bottom-0 w-[80%] max-w-sm bg-white dark:bg-slate-900 z-[101] shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out p-6 flex flex-col">
+        <div class="flex justify-between items-center mb-8">
+            <div class="flex items-center gap-2">
+                <div class="bg-primary p-2 rounded-lg text-white">
+                    <span class="material-symbols-outlined text-xl">health_and_safety</span>
+                </div>
+                <span class="text-lg font-extrabold tracking-tight text-slate-900 dark:text-white">SwasthyaSaathi</span>
+            </div>
+            <button id="closeMobileNavBtn"
+                class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+
+        <nav class="flex flex-col gap-4 mb-8">
+            <a class="text-lg font-semibold text-slate-700 dark:text-slate-300 hover:text-primary flex items-center gap-3 p-2 rounded-xl"
+                href="index.html">
+                <span class="material-symbols-outlined text-primary">home</span> Home
+            </a>
+            <a class="text-lg font-semibold text-slate-700 dark:text-slate-300 hover:text-primary flex items-center gap-3 p-2 rounded-xl"
+                href="about.html">
+                <span class="material-symbols-outlined">info</span> About
+            </a>
+            <a class="text-lg font-semibold text-slate-700 dark:text-slate-300 hover:text-primary flex items-center gap-3 p-2 rounded-xl"
+                href="awareness.html">
+                <span class="material-symbols-outlined">library_books</span> Health Awareness
+            </a>
+            <a class="text-lg font-semibold text-primary bg-primary/10 flex items-center gap-3 p-2 rounded-xl"
+                href="alerts.html">
+                <span class="material-symbols-outlined">notification_important</span> Outbreak Alerts
+            </a>
+            <a class="text-lg font-semibold text-slate-700 dark:text-slate-300 hover:text-primary flex items-center gap-3 p-2 rounded-xl"
+                href="reminders.html">
+                <span class="material-symbols-outlined">event_note</span> Reminders
+            </a>
+        </nav>
+
+        <div class="h-px bg-slate-100 dark:bg-slate-800 my-4"></div>
+
+        <a class="flex items-center gap-2 px-4 py-4 bg-primary text-white rounded-2xl font-bold justify-center shadow-lg shadow-primary/20"
+            href="chat.html">
+            <span class="material-symbols-outlined">chat_bubble</span> Launch AI Chat
+        </a>
+
+        <div class="mt-auto pt-6 flex flex-col gap-3">
+            <button
+                class="w-full py-3 text-sm font-bold text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 rounded-xl">Login</button>
+            <button
+                class="w-full py-3 bg-primary text-white text-sm font-bold rounded-xl shadow-lg shadow-primary/20">Sign
+                Up</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const closeMobileNavBtn = document.getElementById('closeMobileNavBtn');
+            const mobileNavOverlay = document.getElementById('mobileNavOverlay');
+            const mobileNavDrawer = document.getElementById('mobileNavDrawer');
+
+            function openMobileNav() {
+                mobileNavOverlay.classList.remove('hidden');
+                setTimeout(() => {
+                    mobileNavOverlay.classList.remove('opacity-0');
+                    mobileNavDrawer.classList.remove('translate-x-full');
+                }, 10);
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeMobileNav() {
+                mobileNavOverlay.classList.add('opacity-0');
+                mobileNavDrawer.classList.add('translate-x-full');
+                setTimeout(() => {
+                    mobileNavOverlay.classList.add('hidden');
+                }, 300);
+                document.body.style.overflow = '';
+            }
+
+            if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', openMobileNav);
+            if (closeMobileNavBtn) closeMobileNavBtn.addEventListener('click', closeMobileNav);
+            if (mobileNavOverlay) mobileNavOverlay.addEventListener('click', closeMobileNav);
+        });
+    </script>
+
+    <!-- Global Floating Chat Button -->
+    <a href="chat.html"
+        class="fixed bottom-6 right-6 z-50 flex h-16 w-16 items-center justify-center rounded-full bg-primary text-white shadow-xl shadow-primary/30 transition-transform duration-300 hover:scale-110 hover:bg-primary/90">
+        <span class="material-symbols-outlined text-3xl">chat_bubble</span>
+    </a>
+</body>
+
+</html>

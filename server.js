@@ -115,6 +115,11 @@ app.post('/api/chat', async (req, res) => {
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`Server is running successfully on http://localhost:${PORT}`);
-});
+// Export app for Vercel
+export default app;
+
+if (process.env.NODE_ENV !== 'production' && import.meta.url === `file://${process.argv[1]}`) {
+    app.listen(PORT, () => {
+        console.log(`Server is running successfully on http://localhost:${PORT}`);
+    });
+}

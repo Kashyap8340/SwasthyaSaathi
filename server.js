@@ -16,6 +16,7 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Serve frontend static files from the same directory
 app.use(express.static(__dirname));
@@ -119,6 +120,70 @@ app.post('/api/chat', async (req, res) => {
             // Otherwise end the stream
             res.end();
         }
+    }
+});
+
+// WhatsApp Endpoint Configured for Twilio
+app.post('/api/whatsapp', async (req, res) => {
+    try {
+        const incomingMsg = req.body.Body;
+        if (!incomingMsg) {
+            return res.status(400).send('No message body');
+        }
+
+        const postData = JSON.stringify({
+            model: "stepfun/step-3.5-flash:free",
+            messages: [{ role: "user", content: incomingMsg }],
+            stream: false
+        });
+
+        const options = {
+            hostname: 'openrouter.ai',
+            path: '/api/v1/chat/completions',
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
+                'Content-Type': 'application/json',
+                'Content-Length': Buffer.byteLength(postData)
+            }
+        };
+
+        let responseText = "AI Assistant is currently unavailable.";
+
+        const orReq = https.request(options, (orRes) => {
+            let data = '';
+            orRes.on('data', chunk => data += chunk);
+            orRes.on('end', () => {
+                if (orRes.statusCode === 200) {
+                    try {
+                        const parsed = JSON.parse(data);
+                        responseText = parsed.choices[0]?.message?.content || responseText;
+                    } catch (e) {
+                        console.error("Error parsing OpenRouter response", e);
+                    }
+                } else {
+                    console.error("OpenRouter API error:", data);
+                }
+
+                // Send Twilio XML Response
+                res.setHeader('Content-Type', 'text/xml');
+                res.send(`<?xml version="1.0" encoding="UTF-8"?><Response><Message>${responseText}</Message></Response>`);
+            });
+        });
+
+        orReq.on('error', (error) => {
+            console.error('Error proxying to OpenRouter:', error);
+            res.setHeader('Content-Type', 'text/xml');
+            res.send(`<?xml version="1.0" encoding="UTF-8"?><Response><Message>Error connecting to AI service.</Message></Response>`);
+        });
+
+        orReq.write(postData);
+        orReq.end();
+
+    } catch (error) {
+        console.error('WhatsApp Endpoint Error:', error);
+        res.setHeader('Content-Type', 'text/xml');
+        res.send(`<?xml version="1.0" encoding="UTF-8"?><Response><Message>Internal Server Error.</Message></Response>`);
     }
 });
 
